@@ -1,18 +1,20 @@
-bool
-break
-class
-double
-else
-extends
-for
-if
-implements
-int
-interface
-newarray
-println
-readln
-return
-string
-void
-while
+bool	_bool	
+break	_break
+class	_class
+double	_double
+else	_else
+extends	_extends
+false	_boolconstant
+for	_for
+if	_if
+implements	_implements
+int	_int
+interface	_interface
+newarray	_newarray
+println	_println
+readln	_readln
+return	_return
+string	_string
+true	_boolconstant
+void	_void
+while	_while

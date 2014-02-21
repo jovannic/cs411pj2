@@ -1,5 +1,3 @@
-import com.sun.deploy.util.StringUtils;
-
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -32,7 +30,7 @@ public class Lexer {
         Scanner scanner = new Scanner(new File("keywords.txt"));
         while (scanner.hasNext()) {
             String keyword = scanner.next();
-            Token token = Token.valueOf("_" + keyword);
+            Token token = Token.valueOf(scanner.next());
             keywords.add(keyword, token);
         }
         scanner.close();
@@ -51,7 +49,7 @@ public class Lexer {
         Pattern identifier = Pattern.compile("[^\\d\\W]\\w*");
         Pattern integer = Pattern.compile("(\\d+)|(0x[\\dA-Fa-f]+)");
         Pattern real = Pattern.compile("\\d+\\.\\d*([eE][+\\-]?\\d+)?");
-        Pattern ops = Pattern.compile(StringUtils.join(opsStr, "|"));
+        //Pattern ops = Pattern.compile(StringUtils.join(opsStr, "|"));
 
         scanner = new Scanner(new File("input.txt"));
         while (scanner.hasNext()) {
