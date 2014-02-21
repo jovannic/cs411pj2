@@ -23,8 +23,8 @@ public class Lexer {
     }
 
     public static void main(String[] args) throws IOException {
-        TrieMap keywords = new TrieMap<Token>();
-        TrieMap operators = new TrieMap<Token>();
+        TrieMap<Token> keywords = new TrieMap<Token>();
+        TrieMap<Token> operators = new TrieMap<Token>();
 
         // load the keywords
         Scanner scanner = new Scanner(new File("keywords.txt"));
