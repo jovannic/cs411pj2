@@ -36,7 +36,7 @@ public enum CharType {
                 escape = false;
             } else if (c == '\\') {
                 escape = true;
-            } if (c != '-' && last != '\0') {
+            } if (c == '-' && last != '\0') {
                 c = keys.charAt(++i); // advance & get next
                 for (int j = last; j < c; ++j)
                     array[j] = value;
@@ -45,7 +45,6 @@ public enum CharType {
             }
 
             last = c;
-
         }
     }
 }
