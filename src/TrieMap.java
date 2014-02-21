@@ -1,8 +1,8 @@
 import java.util.Arrays;
 
 public class TrieMap<T> implements SymbolMap<T> {
-    public static final char DELIMITER = '\0';
-    public static final String ALPHABET = "ABCDEFGHIJKLMONPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$";
+    private static final char DELIMITER = '\0';
+    private static final String ALPHABET = "ABCDEFGHIJKLMONPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$";
 
     private int[] start = new int[128]; // aka switch: char -> index in symbol
 
