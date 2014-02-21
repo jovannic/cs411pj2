@@ -18,10 +18,11 @@ public class TrieMap<T> implements SymbolMap<T> {
     private FindResult find(String identifier) {
         char c = identifier.charAt(0);
         // Start index
-        int ptr = start[c];
+        int index = start[c];
 
         // If undefined start, definitely new identifier
-        if (ptr == -1) {
+        if (index == -1) {
+            // TODO: Fix bug where this should not be called unless create
             start[c] = size; // adding symbol at the end
             return new FindResult(identifier.substring(1), size, false);
         }
@@ -31,45 +32,45 @@ public class TrieMap<T> implements SymbolMap<T> {
         for (int i = 1; i < n; i++) {
             c = identifier.charAt(i);
 
-            if (symbol[ptr] == c) {
-                ptr++; // Continue alone while symbol matches...
+            if (symbol[index] == c) {
+                index++; // Continue along while symbol matches...
             } else {
                 // If no match, try the next chain...
                 // While there's a next and we haven't found the next symbol...
-                while (next[ptr] != 0 && symbol[ptr] != c)
-                    ptr = next[ptr];
+                while (next[index] != 0 && symbol[index] != c)
+                    index = next[index];
 
-                if (symbol[ptr] == c)
-                    ptr++; // Found match on next chain, continue...
+                if (symbol[index] == c)
+                    index++; // Found match on next chain, continue...
                 else {
                     // Exhausted the next chain and still no complete match
-                    return new FindResult(identifier.substring(i), ptr, false);
+                    return new FindResult(identifier.substring(i), index, false);
                 }
             }
         }
         // Identifier ended
 
         // Until symbol ended or the next list is exhausted...
-        while (next[ptr] != 0 && !isDelim(symbol[ptr]))
-            ptr = next[ptr];
+        while (next[index] != 0 && !isDelim(symbol[index]))
+            index = next[index];
 
-        c = symbol[ptr];
+        c = symbol[index];
         if (isDelim(c)) {
             // Symbol ended, match found
-            return new FindResult("", ptr, true);
+            return new FindResult("", index, true);
         } else {
             // Identifier is a substring of another, add a new shorter symbol
-            return new FindResult("", ptr, false);
+            return new FindResult("", index, false);
         }
     }
 
     // Finish adding a new identifier from the give index in symbol
-    private void create(String remaining, int fromSymbolIndex, T value) {
+    private void create(String remaining, int fromIndex, T value) {
         // Assume calling lookup exhausted the next list
 
         // Need to mark next if not starting at the end (new first char)
-        if (fromSymbolIndex != size)
-            next[fromSymbolIndex] = size;
+        if (fromIndex != size)
+            next[fromIndex] = size;
 
         ensureCapacity(size + (remaining.length() + 1));
 
@@ -160,6 +161,8 @@ public class TrieMap<T> implements SymbolMap<T> {
         FindResult f = find(symbol);
         if (!f.match)
             create(f.remaining, f.symbolIndex, value);
+        else
+            data[f.symbolIndex] = value;
     }
 
     @Override
