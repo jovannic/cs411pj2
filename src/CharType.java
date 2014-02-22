@@ -14,6 +14,11 @@ public enum CharType {
         return typeOf(c) == t;
     }
 
+    public static boolean isSymbol(char c) {
+        CharType t = typeOf(c);
+        return t == DIGIT || t == SYMBOL;
+    }
+
     static {
         setAll(" \t\r\n", CharType.SPACE, cclass);
         setAll("!&()*+,\\-./;<=>[]{|}", CharType.OP, cclass);

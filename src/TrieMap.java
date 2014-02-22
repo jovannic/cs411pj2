@@ -15,6 +15,83 @@ public class TrieMap<T> implements SymbolMap<T> {
         Arrays.fill(start, -1);
     }
 
+    public class Finder {
+        private int index;
+        private boolean match = false;
+        private boolean ended;
+
+        private Finder(int index) {
+            this.index = index;
+            ended = index == -1;
+        }
+
+        public Finder append(char c) {
+            if (ended)
+                return this;
+
+            if (symbol[index] == c) {
+                index++; // Continue along while symbol matches...
+            } else {
+                // If no match, try the next chain...
+                // While there's a next and we haven't found the next symbol...
+                while (next[index] != 0 && symbol[index] != c)
+                    index = next[index];
+
+                if (symbol[index] == c)
+                    index++; // Found match on next chain, continue...
+                else {
+                    // Exhausted the next chain and still no complete match
+                    ended = true; // appending after this leads to an invalid state
+                }
+            }
+
+            return this;
+        }
+
+        public Finder end() {
+            if (ended)
+                return this;
+
+            // Until symbol hasEnded or the next list is exhausted...
+            while (next[index] != 0 && !isDelim(symbol[index]))
+                index = next[index];
+
+            char c = symbol[index];
+            if (isDelim(c)) {
+                // Symbol hasEnded, match found
+                match = true;
+            } else {
+                // Identifier is a substring of another, add a new shorter symbol
+                match = false;
+            }
+            ended = true;
+
+            return this;
+        }
+
+        public boolean _atEnd() {
+            return isDelim(symbol[index]);
+        }
+
+        public boolean hasEnded() {
+            return ended;
+        }
+
+        public boolean isMatch() {
+            return ended && match;
+        }
+
+        public T getData() {
+            // data only valid when hasEnded, on match
+            return match ? (T) data[index] : null;
+        }
+    }
+
+    // iterative find
+    public Finder find(char first) {
+        return new Finder(start[first]);
+    }
+
     private FindResult find(String identifier) {
         char c = identifier.charAt(0);
         // Start index
