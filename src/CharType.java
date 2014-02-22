@@ -1,5 +1,6 @@
 /**
- * Created by Jovanni on 2/21/14.
+ * Enum classifying character types for lexer decision making
+ * @author Jovanni Cutigni
  */
 public enum CharType {
     SPACE, SLASH, OP, DIGIT, SYMBOL, QUOTE;

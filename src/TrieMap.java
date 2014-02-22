@@ -1,5 +1,9 @@
 import java.util.Arrays;
 
+/**
+ * Trie symbol map, supports full symbol, plus iterative searching 
+ * @author Jovanni Cutigni
+ */
 public class TrieMap<T> implements SymbolMap<T> {
     private static final char DELIMITER = '\0';
     private static final String ALPHABET = "ABCDEFGHIJKLMONPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$";
