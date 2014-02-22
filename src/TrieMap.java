@@ -153,24 +153,24 @@ public class TrieMap<T> implements SymbolMap<T> {
     @Override
     public T get(String symbol) {
         FindResult f = find(symbol);
-        return f.match ? (T) data[f.symbolIndex] : null;
+        return f.match ? (T) data[f.index] : null;
     }
 
     @Override
     public void add(String symbol, T value) {
         FindResult f = find(symbol);
         if (!f.match)
-            create(f.remaining, f.symbolIndex, value);
+            create(f.remaining, f.index, value);
         else
-            data[f.symbolIndex] = value;
+            data[f.index] = value;
     }
 
     @Override
     public T getOrAdd(String symbol, T value) {
         FindResult f = find(symbol);
         if (f.match)
-            return (T) data[f.symbolIndex];
-        create(f.remaining, f.symbolIndex, value);
+            return (T) data[f.index];
+        create(f.remaining, f.index, value);
         return value;
     }
 
@@ -181,11 +181,11 @@ public class TrieMap<T> implements SymbolMap<T> {
 
     private class FindResult {
         public final String remaining;
-        public final int symbolIndex;
+        public final int index;
         public final boolean match;
-        public FindResult(String remaining, int symbolIndex, boolean match) {
+        public FindResult(String remaining, int index, boolean match) {
             this.remaining = remaining;
-            this.symbolIndex = symbolIndex;
+            this.index = index;
             this.match = match;
         }
     }
