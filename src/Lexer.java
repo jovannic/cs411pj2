@@ -97,7 +97,6 @@ public class Lexer {
                         //  a 'hex' string with an _ or Z in it is an error
                         consumeSymbol(stream, b);
                         long value = Long.valueOf(b.toString(), 16);
-                        System.out.print("("+b.toString()+")");
                     } else {
                         b.append(c);
                         // consume digits and letters again
@@ -129,13 +128,11 @@ public class Lexer {
                             }
 
                             double doubleValue = Double.valueOf(b.toString());
-                            System.out.print("("+b.toString()+")");
                             return Token._doubleconstant;
                         }
 
                         // otherwise plain ol' integer value
                         long value = Long.valueOf(b.toString());
-                        System.out.print("("+b.toString()+")");
                     }
                     return Token._intconstant;
                 case QUOTE:
