@@ -1,6 +1,7 @@
-import java.io.*;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * CS 411 Project 1 : Toy Lexer
