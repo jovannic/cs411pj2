@@ -38,8 +38,14 @@ public class Lexer {
         while (stream.hasNext()) {
             char c = stream.next();
 
+            CharType cctype = CharType.typeOf(c);
+            // switch throws null pointer exception if null
+            if (cctype == null) {
+                throw new IllegalArgumentException("Unknown character '" + c + "'");
+            }
+
             // branches off the initial character and goes from there
-            switch (CharType.typeOf(c)) {
+            switch (cctype) {
                 case SPACE:
                     break; // ignore whitespace, continue
                 case SYMBOL:
