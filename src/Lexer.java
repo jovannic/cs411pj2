@@ -144,9 +144,11 @@ public class Lexer {
         b.append(first);
         TrieMap<Token>.Finder f = operators.find(first);
 
-        while (!f.hasEnded() && !f._atEnd() && stream.hasNext() && CharType.is(stream.peek(), CharType.OP)) {
-            f.append(first = stream.next());
-            b.append(first);
+        char c;
+        while (!f.hasEnded() && stream.hasNext() && CharType.is(c = stream.peek(), CharType.OP) && f.hasNext(c)) {
+            c = stream.next();
+            f.append(c);
+            b.append(c);
         }
         f.end();
 

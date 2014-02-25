@@ -73,8 +73,26 @@ public class TrieMap<T> implements SymbolMap<T> {
             return this;
         }
 
-        public boolean _atEnd() {
-            return isDelim(symbol[index]);
+        public boolean hasNext(char c) {
+            if (ended)
+                return false;
+
+            int i = index;
+            while (next[i] != 0 && symbol[i] != c)
+                i = next[i];
+
+            return symbol[i] == c;
+        }
+
+        public boolean hasNextEnd() {
+            if (ended)
+                return false;
+
+            int i = index;
+            while (next[i] != 0 && isDelim(symbol[i]))
+                i = next[i];
+
+            return isDelim(symbol[i]);
         }
 
         public boolean hasEnded() {
