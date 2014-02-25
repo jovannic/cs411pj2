@@ -29,7 +29,7 @@ public enum CharType {
         setAll("\"", CharType.QUOTE, cclass);
     }
 
-    private static void setAll(String keys, CharType value, CharType[] array) {
+    private static void setAll(String keys, final CharType value, CharType[] array) {
         char last = '\0';
         boolean escape = false;
 
@@ -42,7 +42,7 @@ public enum CharType {
                 escape = false;
             } else if (c == '\\') {
                 escape = true;
-            } if (c == '-' && last != '\0') {
+            } else if (c == '-' && last != '\0') {
                 c = keys.charAt(++i); // advance & get next
                 for (int j = last; j <= c; ++j)
                     array[j] = value;
