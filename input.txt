@@ -26,3 +26,44 @@ class cs411 {
 	while (x = (Funny/10) <0) println (s, " have fun !");
 	a = newarray (20, int);
 }
+
+// operators
++ - * / < <= > >= == != && || ! = ; , . () [] {}
+
+// operator slurry with no spaces
++-*/<<=>>===!=&&||!=!,.()[]{}
+>=>-+
+
+// identifiers
+azzz____aazzz
+Azz_
+AZ__
+ZA__ Z00001290923___
+ZA02910_2_AA__
+
+// hex
+0xa 0XA 0xf 0XF 0x1 0X1 0x9 0X9
+
+// int
+0123 123
+
+// double
+12.2E+3 12.3E3 12.3E-3 12. 12.0 12.2e+3 12.3E3 12.3E-5
+
+// invalid double
+//12.e 12.e- 12e 12.E 12.E- 12.-E
+
+// bool constants
+true false
+
+// string constants
+"String"
+a"String"
+"String"b
+"String""String2"
+"String"B"String2"
+a"string"b
+a "String" b
+"String "" String2"
+" String " " String 2 "
+" String " " String2 "
