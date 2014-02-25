@@ -205,7 +205,7 @@ public class Lexer {
         keywords.add("true", Token._boolconstant);
         keywords.add("void", Token._void);
         keywords.add("while", Token._while);
-        // IMPORTANT: for common prefixes they're prioritized in order added
+        
         operators.add("+", Token._plus);
         operators.add("-", Token._minus);
         operators.add("*", Token._multiplication);
