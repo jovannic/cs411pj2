@@ -19,17 +19,17 @@ public class TrieMap<T> implements SymbolMap<T> {
         Arrays.fill(start, -1);
     }
 
-    public class Finder {
+    public class TrieSearch {
         private int index;
         private boolean match = false;
         private boolean ended;
 
-        private Finder(int index) {
+        private TrieSearch(int index) {
             this.index = index;
             ended = index == -1;
         }
 
-        public Finder append(char c) {
+        public TrieSearch append(char c) {
             if (ended)
                 return this;
 
@@ -52,7 +52,7 @@ public class TrieMap<T> implements SymbolMap<T> {
             return this;
         }
 
-        public Finder end() {
+        public TrieSearch end() {
             if (ended)
                 return this;
 
@@ -110,8 +110,8 @@ public class TrieMap<T> implements SymbolMap<T> {
     }
 
     // iterative find
-    public Finder find(char first) {
-        return new Finder(start[first]);
+    public TrieSearch find(char first) {
+        return new TrieSearch(start[first]);
     }
 
     private FindResult find(String identifier) {

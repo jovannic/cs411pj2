@@ -148,7 +148,7 @@ public class Lexer {
     private Token parseOp(CharStream stream, char first) throws IOException {
         StringBuilder b = new StringBuilder();
         b.append(first);
-        TrieMap<Token>.Finder f = operators.find(first);
+        TrieMap<Token>.TrieSearch f = operators.find(first);
 
         char c;
         while (!f.hasEnded() && stream.hasNext() && CharType.is(c = stream.peek(), CharType.OP) && f.hasNext(c)) {
