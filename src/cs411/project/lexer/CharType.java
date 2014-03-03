@@ -1,3 +1,5 @@
+package cs411.project.lexer;
+
 /**
  * Enum classifying character types for lexer decision making
  * @author Jovanni Cutigni

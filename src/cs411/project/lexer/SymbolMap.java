@@ -1,3 +1,4 @@
+package cs411.project.lexer;
 
 public interface SymbolMap<T> {
     T get(String symbol);

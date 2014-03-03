@@ -1,3 +1,5 @@
+package cs411.project.lexer;
+
 import java.util.Arrays;
 
 /**
