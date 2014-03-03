@@ -1,0 +1,93 @@
+Program ::= Decl+
+
+Decl ::= VariableDecl
+Decl ::= FunctionDecl
+Decl ::= ClassDecl
+Decl ::= InterfaceDecl
+
+VariableDecl ::= Variable _semicolon
+
+Variable ::= Type _id
+
+Type ::= _int
+Type ::= _double
+Type ::= _bool
+Type ::= _string
+Type ::= Type _leftbracket _rightbracket
+Type ::= _id
+
+FunctionDecl ::= Type _id _leftparen Formals _rightparen StmtBlock
+FunctionDecl ::= _void _id _leftparen Formals _rightparen StmtBlock
+
+Formals ::= Variable+,
+Formals ::= ""
+
+ClassDecl ::= _class _id <_extends _id> <_implements _id+,> _leftbrace Field* _rightbrace
+
+Field ::= VariableDecl
+Field ::= FunctionDecl
+
+InterfaceDecl ::= _interface _id _leftbrace Prototype* _rightbrace
+
+Prototype ::= Type _id _leftparen Formals _rightparen _semicolon
+Prototype ::= _void _id _leftparen Formals _rightparen _semicolon
+
+StmtBlock ::= _leftbrace VariableDecl* Stmt* _rightbrace
+
+Stmt ::= <Expr> _semicolon
+Stmt ::= IfStmt
+Stmt ::= WhileStmt
+Stmt ::= ForStmt
+Stmt ::= BreakStmt
+Stmt ::= ReturnStmt
+Stmt ::= PrintStmt
+Stmt ::= StmtBlock
+
+IfStmt ::= _if _leftparen Expr _rightparen Stmt <_else Stmt>
+
+WhileStmt ::= _while _leftparen Expr _rightparen Stmt
+
+ForStmt ::= _for _leftparen <Expr> _semicolon Expr _semicolon <Expr> _rightparen Stmt
+
+BreakStmt ::= _break _semicolon
+
+ReturnStmt ::= _return <Expr> _semicolon
+
+PrintStmt ::= _println _leftparen Expr+, _rightparen _semicolon
+
+Expr ::= Lvalue _assignop Expr
+Expr ::= Constant
+Expr ::= Lvalue
+Expr ::= Call
+Expr ::= _leftparen Expr _rightparen
+Expr ::= Expr _plus Expr
+Expr ::= Expr _minus Expr
+Expr ::= Expr _multiplication Expr
+Expr ::= Expr _division Expr
+Expr ::= _minus Expr
+Expr ::= Expr _greater Expr
+Expr ::= Expr _greaterequal Expr
+Expr ::= Expr _less Expr
+Expr ::= Expr _lessequal Expr
+Expr ::= Expr _equal Expr
+Expr ::= Expr _notequal Expr
+Expr ::= Expr _and Expr
+Expr ::= Expr _or Expr
+Expr ::= _not Expr
+Expr ::= _readln _leftparen _rightparen
+Expr ::= _newarray _leftparen _intconstant _comma Type _rightparen
+
+Lvalue ::= _id
+Lvalue ::= Expr _leftbracket Expr _rightbracket
+Lvalue ::= Expr _period _id
+
+Call ::= _id _leftparen Actuals _rightparen
+Call ::= _id _period _id _leftparen Actuals _rightparen
+
+Actuals ::= Expr+,
+Actuals ::= ""
+
+Constant ::= _intconstant
+Constant ::= _doubleconstant
+Constant ::= _stringconstant
+Constant ::= _boolconstant
