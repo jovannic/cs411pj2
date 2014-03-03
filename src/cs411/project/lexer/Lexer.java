@@ -187,50 +187,54 @@ public class Lexer {
     }
 
     private void loadTablesExplictly() {
-        keywords.add("bool", Token._bool);
-        keywords.add("break", Token._break);
-        keywords.add("class", Token._class);
-        keywords.add("double", Token._double);
-        keywords.add("else", Token._else);
-        keywords.add("extends", Token._extends);
-        keywords.add("false", Token._boolconstant);
-        keywords.add("for", Token._for);
-        keywords.add("if", Token._if);
-        keywords.add("implements", Token._implements);
-        keywords.add("int", Token._int);
-        keywords.add("interface", Token._interface);
-        keywords.add("newarray", Token._newarray);
-        keywords.add("println", Token._println);
-        keywords.add("readln", Token._readln);
-        keywords.add("return", Token._return);
-        keywords.add("string", Token._string);
-        keywords.add("true", Token._boolconstant);
-        keywords.add("void", Token._void);
-        keywords.add("while", Token._while);
-        
-        operators.add("+", Token._plus);
-        operators.add("-", Token._minus);
-        operators.add("*", Token._multiplication);
-        operators.add("/", Token._division);
-        operators.add("<=", Token._greaterequal);
-        operators.add("<", Token._greater);
-        operators.add(">=", Token._lessequal);
-        operators.add(">", Token._less);
-        operators.add("==", Token._equal);
-        operators.add("!=", Token._notequal);
-        operators.add("&&", Token._and);
-        operators.add("||", Token._or);
-        operators.add("!", Token._not);
-        operators.add("=", Token._assignop);
-        operators.add(";", Token._semicolon);
-        operators.add(",", Token._comma);
-        operators.add(".", Token._period);
-        operators.add("(", Token._leftparen);
-        operators.add(")", Token._rightparen);
-        operators.add("[", Token._leftbracket);
-        operators.add("]", Token._rightbracket);
-        operators.add("{", Token._leftbrace);
-        operators.add("}", Token._rightbrace);
+        addTo(keywords, Token._bool);
+        addTo(keywords, Token._break);
+        addTo(keywords, Token._class);
+        addTo(keywords, Token._double);
+        addTo(keywords, Token._else);
+        addTo(keywords, Token._extends);
+        addTo(keywords, Token._boolconstant);
+        addTo(keywords, Token._for);
+        addTo(keywords, Token._if);
+        addTo(keywords, Token._implements);
+        addTo(keywords, Token._int);
+        addTo(keywords, Token._interface);
+        addTo(keywords, Token._newarray);
+        addTo(keywords, Token._println);
+        addTo(keywords, Token._readln);
+        addTo(keywords, Token._return);
+        addTo(keywords, Token._string);
+        addTo(keywords, Token._boolconstant);
+        addTo(keywords, Token._void);
+        addTo(keywords, Token._while);
+
+        addTo(operators, Token._plus);
+        addTo(operators, Token._minus);
+        addTo(operators, Token._multiplication);
+        addTo(operators, Token._division);
+        addTo(operators, Token._greaterequal);
+        addTo(operators, Token._greater);
+        addTo(operators, Token._lessequal);
+        addTo(operators, Token._less);
+        addTo(operators, Token._equal);
+        addTo(operators, Token._notequal);
+        addTo(operators, Token._and);
+        addTo(operators, Token._or);
+        addTo(operators, Token._not);
+        addTo(operators, Token._assignop);
+        addTo(operators, Token._semicolon);
+        addTo(operators, Token._comma);
+        addTo(operators, Token._period);
+        addTo(operators, Token._leftparen);
+        addTo(operators, Token._rightparen);
+        addTo(operators, Token._leftbracket);
+        addTo(operators, Token._rightbracket);
+        addTo(operators, Token._leftbrace);
+        addTo(operators, Token._rightbrace);
+    }
+
+    private void addTo(SymbolMap<Token> map, Token t) {
+        map.add(t.stringValue(), t);
     }
 
     // ignores until eof or end of match found. assumes str.length() > 0

@@ -2,10 +2,10 @@
 -	_minus
 *	_multiplication
 /	_division
-<=	_greaterequal
-<	_greater
->=	_lessequal
->	_less
+>=	_greaterequal
+>	_greater
+<=	_lessequal
+<	_less
 ==	_equal
 !=	_notequal
 &&	_and
