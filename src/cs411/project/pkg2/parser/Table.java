@@ -18,7 +18,7 @@ public class Table {
     private LinkedList<LinkedList<LinkedList<Integer>>> listomania;
     private LinkedList<LinkedList<Integer>> productions;
 
-    public Table(List<List<Integer>> productions) {
+    public Table(LinkedList<LinkedList<Integer>> productions) {
         this.productions = productions;
         listomania = new LinkedList();
     }
