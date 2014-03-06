@@ -26,7 +26,7 @@ public class Table {
     }
 
     public void makeAi() {
-        int tableNum = 0;
+        //int tableNum = 0;
         int startProductionNum = 0;
         //this adds our first rule to the table
         LinkedList<Integer> rule = productions.get(startProductionNum);
@@ -35,9 +35,10 @@ public class Table {
         listomania.add(ruleSq);
 
         //if we have nonterminals after the dot, we want to add all of their rules to the table
-        addNonterminalsToTable(tableNum);
-        generateTables(tableNum);
-
+        for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
+            addNonterminalsToTable(tableNum);
+            generateTables(tableNum);
+        }
 
         //bench this code
         //shifting done
@@ -62,7 +63,16 @@ public class Table {
         //for each of the rules in X
         for (int ruleNum = 0; ruleNum < listomania.get(tableNum).size(); ruleNum++) {
             charNum = findAfterDot(tableNum, ruleNum);
+            if(charNum < listomania.get(tableNum).get(ruleNum).size()) {
             leadingCharacter = listomania.get(tableNum).get(ruleNum).get(charNum);
+            } else {
+                leadingCharacter = -1;
+            }
+            if(leadingCharacter == -1) {
+                //get the first character
+                Integer production = listomania.get(tableNum).get(ruleNum).get(0);
+                addReduce(tableNum, production);
+            }
             //add all of the rules that match this character
             for (int i = 0; i < listomania.get(tableNum).size(); i++) {
                 charNum = findAfterDot(tableNum, i);
@@ -102,12 +112,20 @@ public class Table {
                 int symbol = leadingCharacter;
                 int next = listomania.size();
                 //parsetable.shiftAdd(tableIndex, symbol, next);
-                tableNum = listomania.size();
-                listomania.addAll((Integer) tableNum, (LinkedList) ruleList);
-                addNonterminalsToTable(tableNum);
-                generateTables(tableNum);
+                //tableNum = listomania.size();
+                listomania.addAll((LinkedList) ruleList);
+                gotoTable = listomania.size() - 1;
+
             } else {
-                //edit goto table
+                //do nothing... maybe
+            }
+            if (isTerminal(leadingCharacter)) {
+                //we want to add it to the shift table
+                addShift(tableNum, leadingCharacter, gotoTable);
+            } else {
+                // for nonterminals on top of the stack (they arent really added to the stack)
+                // we want to add them to the goto
+                addGoto(tableNum, leadingCharacter, gotoTable);
             }
 
         }
@@ -159,6 +177,14 @@ public class Table {
         // also save the position of the dot
         return charNum;
     }
+    
+    private boolean isTerminal(int number) {
+        return number < nonterminal;
+    }
+    
+    private boolean isNonTerminal(int number) {
+        return !isTerminal(number);
+    }
 
     private void addNonterminalsToTable(int tableNum) {
         //int tableNum = 0;
@@ -169,7 +195,7 @@ public class Table {
             findAfterDot(tableNum, ruleNum);
             //get the character after the dot
             int productionPointer = listomania.get(tableNum).get(ruleNum).get(charNum);
-            if (productionPointer > nonterminal) {
+            if (isNonTerminal(productionPointer)) {
                 //find out if the value is a nonterminal, assuming nonterminals are high valued
                 //TODO: need to add the whole when we see a nonterminal thing here
                 // this is where we generate more rows whenever we see a nonterminal
@@ -214,5 +240,17 @@ public class Table {
         }
 
         return false;
+    }
+
+    private void addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void addReduce(int tableNum, Integer production) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }
