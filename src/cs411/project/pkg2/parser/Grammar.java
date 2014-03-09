@@ -14,23 +14,26 @@ public class Grammar {
     private static final int[] EMPTY = new int[0];
 
     private int firstNonterminal;
-    private int count;
+    private int nextNonterminal;
+
     Map<String, Integer> ids = new HashMap<String, Integer>();
     Map<Integer, String> names = new HashMap<Integer, String>();
-    // Map(id -> rules[rule[token/nonterminal]])
-    private ArrayList<ArrayList<int[]>> rules = new ArrayList<ArrayList<int[]>>();
+
+    // rulseFor[nonterminalID] -> List of production rules
+    private ArrayList<ArrayList<int[]>> rulesFor = new ArrayList<ArrayList<int[]>>();
 
     public static Grammar load(File file) throws IOException {
         Scanner lines = new Scanner(file);
         Grammar g = new Grammar();
+
         g.firstNonterminal = Token.values().length;
-        g.count = g.firstNonterminal - 1;
+        g.nextNonterminal = g.firstNonterminal;
 
         // stuff used before it was declared
-        Set<Integer> usedUndeclared = new HashSet<Integer>();
+        Set<Integer> usedBeforeDefined = new HashSet<Integer>();
 
         // re-use this
-        ArrayList<Integer> rule = new ArrayList<Integer>();
+        int[] ruleTemp = new int[128];
 
         // read line by line
         while (lines.hasNextLine()) {
@@ -45,36 +48,31 @@ public class Grammar {
                     throw new IllegalArgumentException("No ::= after name");
 
                 int id = g.idOf(name);
-                g.ensureID(id);
+                g.ensureIndex(id);
 
                 if (l.hasNext()) {
                     // read an actual production
-                    rule.clear();
+                    int ruleLength = 0;
                     while (l.hasNext()) {
                         String p = l.next();
 
                         if (p.charAt(0) == '_') {
                             // starts with underscore, should be a terminal Token
                             Token t = Token.valueOf(p);
-                            rule.add(t.ordinal());
+                            ruleTemp[ruleLength++] = t.ordinal();
                         } else {
                             // must be nonterminal
                             int ntid = g.idOf(p);
-                            rule.add(ntid);
+                            ruleTemp[ruleLength++] = ntid;
 
                             // if not already defined, remember to check later
                             if (g.rulesFor(ntid) == null) {
-                                usedUndeclared.add(ntid);
+                                usedBeforeDefined.add(ntid);
                             }
                         }
                     }
 
-                    int n = rule.size();
-                    int[] a = new int[n];
-                    for (int i = 0; i < n; i++)
-                        a[i] = rule.get(i);
-
-                    g.addRule(id, a);
+                    g.addRule(id, Arrays.copyOf(ruleTemp, ruleLength));
                 } else {
                     // empty string
                     g.addRule(id, EMPTY);
@@ -84,57 +82,61 @@ public class Grammar {
         lines.close();
 
         // check for nonterminals referenced but never defined
-        for (int i : usedUndeclared) {
+        for (int i : usedBeforeDefined) {
             if (g.rulesFor(i) == null) {
-                throw new IllegalArgumentException("Nonterminal \"\" referenced but never defined");
+                throw new IllegalArgumentException("Nonterminal \"" + g.nameOf(i) + "\" referenced but never defined");
             }
         }
 
         return g;
     }
 
-    public List<int[]> rulesFor(int id) {
-        return id < rules.size() ? rules.get(id) : null;
+    public List<int[]> rulesFor(int nonterminalID) {
+        nonterminalID -= firstNonterminal;
+        return nonterminalID < rulesFor.size() ? rulesFor.get(nonterminalID) : null;
     }
 
     public Integer idOf(String name) {
-        Integer value = ids.get(name);
-        if (value == null) {
-            ++count;
-            value = Integer.valueOf(count);
-            ids.put(name, value);
-            names.put(value, name);
+        Integer id = ids.get(name);
+        if (id == null) {
+            id = Integer.valueOf(nextNonterminal);
+            nextNonterminal++;
+            ids.put(name, id);
+            names.put(id, name);
         }
-        return value;
+        return id;
     }
 
-    public String nameOf(int id) {
-        return names.get(id);
+    public String nameOf(int nonterminalID) {
+        return names.get(nonterminalID);
     }
 
     public boolean isTerminal(int id) {
         return id < firstNonterminal;
     }
 
-    private void ensureID(int id) {
-        int n = rules.size();
-        if (id >= n) {
-            rules.ensureCapacity(id + 1);
-            for (int i = n - 1; i < id; i++) {
-                rules.add(null);
+    private void ensureIndex(int id) {
+        int length = rulesFor.size();
+        if (id >= length) {
+            int neededLength = id + 1;
+            rulesFor.ensureCapacity(neededLength);
+            for (int i = length; i < neededLength; i++) {
+                rulesFor.add(null);
             }
         }
     }
 
-    private void addRule(int id, int[] list) {
-        ensureID(id);
+    private void addRule(int id, int[] rule) {
+        id -= firstNonterminal;
 
-        ArrayList<int[]> ruleList = rules.get(id);
+        ensureIndex(id);
+
+        ArrayList<int[]> ruleList = rulesFor.get(id);
         if (ruleList == null) {
             ruleList = new ArrayList<int[]>();
-            rules.set(id, ruleList);
+            rulesFor.set(id, ruleList);
         }
 
-        ruleList.add(list);
+        ruleList.add(rule);
     }
 }
