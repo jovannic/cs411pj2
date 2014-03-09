@@ -34,15 +34,19 @@ public class Tests {
     }
     
     private static void printList(LinkedList<LinkedList<LinkedList<Integer>>> l) {
+        System.out.println();
         for(int i = 0; i < l.size(); i++) {
+            
             System.out.println("Table number: " + i);
             for (int j = 0; j < l.get(i).size(); j++) {
-                System.out.println();
+                
                 for(int k = 0; k < l.get(i).get(j).size(); k++) {
                     System.out.print(l.get(i).get(j).get(k) + " ");
                     
                 }
+                System.out.println();
             }
+            System.out.println();
         }
     }
 }

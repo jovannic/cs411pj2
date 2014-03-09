@@ -24,18 +24,23 @@ public class Table {
         this.productions = productions;
         listomania = new LinkedList();
     }
+
     /**
      * This constructor is for testing purposes
+     *
      * @param productions a list of productions
-     * @param nonterminal A value for when terminals stop and nonterminals begin or vise versa
+     * @param nonterminal A value for when terminals stop and nonterminals begin
+     * or vise versa
      */
     public Table(LinkedList<LinkedList<Integer>> productions, int nonterminal) {
         this(productions);
         this.nonterminal = nonterminal;
     }
+
     /**
      * This is a method for testing, so we can see the output of the tables.
-     * @return 
+     *
+     * @return
      */
     public LinkedList<LinkedList<LinkedList<Integer>>> getLists() {
         return listomania;
@@ -48,12 +53,13 @@ public class Table {
         LinkedList<Integer> rule = productions.get(startProductionNum);
         LinkedList<LinkedList<Integer>> ruleSq = new LinkedList();
         ruleSq.add(rule);
-        listomania.add((LinkedList)ruleSq.clone());
+        listomania.add((LinkedList) ruleSq.clone());
 
         //if we have nonterminals after the dot, we want to add all of their rules to the table
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
             addNonterminalsToTable(tableNum);
             generateTables(tableNum);
+            
         }
 
         //bench this code
@@ -78,6 +84,7 @@ public class Table {
         LinkedList<LinkedList<Integer>> ruleList = new LinkedList(); //its called characterList but it is Integers...
         //for each of the rules in X
         for (int ruleNum = 0; ruleNum < listomania.get(tableNum).size(); ruleNum++) {
+            ruleList = new LinkedList();
             charNum = findAfterDot(tableNum, ruleNum);
             if (charNum < listomania.get(tableNum).get(ruleNum).size()) {
                 leadingCharacter = listomania.get(tableNum).get(ruleNum).get(charNum);
@@ -88,6 +95,7 @@ public class Table {
                 //get the first character
                 Integer production = listomania.get(tableNum).get(ruleNum).get(0);
                 addReduce(tableNum, production);
+                return;
             }
             //add all of the rules that match this character
             for (int i = 0; i < listomania.get(tableNum).size(); i++) {
@@ -97,8 +105,8 @@ public class Table {
                     if (listomania.get(tableNum).get(i).get(charNum) == leadingCharacter) {
                         //add it to the list
                         LinkedList l = new LinkedList();
-                        l.addAll((LinkedList)listomania.get(tableNum).get(i).clone());
-                        ruleList.add((LinkedList)l.clone());
+                        l.addAll((LinkedList) listomania.get(tableNum).get(i).clone());
+                        ruleList.add((LinkedList) l.clone());
                         //we need to clone because we want to be able to manipulate these rules.
                     }
                 }
@@ -108,23 +116,23 @@ public class Table {
             }
             for (int i = 0; i < ruleList.size(); i++) {
                 int afterDotIndex = 0;
-                System.out.println(i + "\t" + afterDotIndex);
-                System.out.println(ruleList.get(i).get(afterDotIndex));
                 Integer a = ruleList.get(i).get(afterDotIndex);
                 Integer b = DOT;
-                while (a < b) {
-                    
+                while (afterDotIndex < ruleList.get(i).size() && !a.equals(b)) {
+
                     // we want to find the value of J where we see 0, or rather our dot
                     afterDotIndex++;
-                    a = ruleList.get(i).get(afterDotIndex);
+                    if (afterDotIndex < ruleList.get(i).size()) {
+                        a = ruleList.get(i).get(afterDotIndex);
+                    }
                 }
                 int dotIndex = afterDotIndex++;
                 //make sure we are not out of bounds
                 if (afterDotIndex < ruleList.get(i).size()) {
                     //remove dot
-                    listomania.get(tableNum).get(ruleNum).remove(dotIndex);
+                    ruleList.get(i).remove(dotIndex);
                     //add the dot to its pervious position +1
-                    listomania.get(tableNum).get(ruleNum).add(afterDotIndex, DOT);
+                    ruleList.get(i).add(afterDotIndex, DOT);
                 }
                 //we do this for every rule in the list
             }
@@ -138,8 +146,9 @@ public class Table {
                 int next = listomania.size();
                 //parsetable.shiftAdd(tableIndex, symbol, next);
                 //tableNum = listomania.size();
+                gotoTable = listomania.size();
                 listomania.add((LinkedList) ruleList);
-                gotoTable = listomania.size() - 1;
+                
 
             } else {
                 //do nothing... maybe
@@ -150,6 +159,7 @@ public class Table {
             } else {
                 // for nonterminals on top of the stack (they arent really added to the stack)
                 // we want to add them to the goto
+                
                 addGoto(tableNum, leadingCharacter, gotoTable);
             }
 
@@ -196,10 +206,13 @@ public class Table {
         int charNum = 0;
         Integer a = (Integer) listomania.get(tableNum).get(ruleNum).get(charNum);
         Integer b = DOT;
-        while (a < b) {
+        while (charNum < listomania.get(tableNum).get(ruleNum).size() && a.intValue() != b.intValue()) {
             // we want to find the value of J where we see 0, or rather our dot
-            charNum++;
-            a = listomania.get(tableNum).get(ruleNum).get(charNum);
+            charNum++; 
+            if(charNum < listomania.get(tableNum).get(ruleNum).size()) {
+                a = listomania.get(tableNum).get(ruleNum).get(charNum);
+            }
+            
         }
         int dotIndex = charNum++; // add 1 again to see the information after the dot
         // also save the position of the dot
@@ -223,21 +236,21 @@ public class Table {
             charNum = findAfterDot(tableNum, ruleNum);
             //get the character after the dot
             if (charNum < listomania.get(tableNum).get(ruleNum).size()) {
-                int productionPointer = listomania.get(tableNum).get(ruleNum).get(charNum);
+                Integer productionPointer = listomania.get(tableNum).get(ruleNum).get(charNum);
                 if (isNonTerminal(productionPointer)) {
                     //find out if the value is a nonterminal, assuming nonterminals are high valued
                     //TODO: need to add the whole when we see a nonterminal thing here
                     // this is where we generate more rows whenever we see a nonterminal
                     for (int i = 0; i < productions.size(); i++) {
-                        if (productions.get(i).get(AFTER_DOT) == productionPointer) {
+                        if (productions.get(i).get(0).equals(productionPointer)) {
                             //we use a static number because we know there is only 
                             //1 nonterminal followed by a dot in the production list
                             //eg all rules start with X 0, where X is a number
 
                             //we need to check to see if there are any other rules that match the rule we are going to copy over
-                            if (checkForRules(productions.get(i), listomania.get(tableNum)) == true) {
+                            if (checkForRules(productions.get(i), listomania.get(tableNum)) == false) {
                                 //we want to clone so we do not alter the productions list.
-                                listomania.get(tableNum).addAll((LinkedList) productions.get(i).clone());
+                                listomania.get(tableNum).add((LinkedList) productions.get(i).clone());
                             }
                         }
                     }
@@ -273,17 +286,17 @@ public class Table {
     }
 
     private void addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
-        System.out.println("goto" + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
+        System.out.println("goto:  " + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
-        System.out.println("Shift" +tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
+        System.out.println("Shift:  " + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void addReduce(int tableNum, Integer production) {
-        System.out.println("Reduce" + tableNum + "\t" + production);
+        System.out.println("Reduce:  " + tableNum + "\t" + production);
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 }
