@@ -48,7 +48,7 @@ public class Table {
         LinkedList<Integer> rule = productions.get(startProductionNum);
         LinkedList<LinkedList<Integer>> ruleSq = new LinkedList();
         ruleSq.add(rule);
-        listomania.add(ruleSq);
+        listomania.add((LinkedList)ruleSq.clone());
 
         //if we have nonterminals after the dot, we want to add all of their rules to the table
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
@@ -98,7 +98,7 @@ public class Table {
                         //add it to the list
                         LinkedList l = new LinkedList();
                         l.addAll((LinkedList)listomania.get(tableNum).get(i).clone());
-                        ruleList.add(l);
+                        ruleList.add((LinkedList)l.clone());
                         //we need to clone because we want to be able to manipulate these rules.
                     }
                 }
@@ -138,7 +138,7 @@ public class Table {
                 int next = listomania.size();
                 //parsetable.shiftAdd(tableIndex, symbol, next);
                 //tableNum = listomania.size();
-                listomania.addAll((LinkedList) ruleList);
+                listomania.add((LinkedList) ruleList);
                 gotoTable = listomania.size() - 1;
 
             } else {
@@ -207,7 +207,7 @@ public class Table {
     }
 
     private boolean isTerminal(int number) {
-        return number < nonterminal;
+        return number > nonterminal;
     }
 
     private boolean isNonTerminal(int number) {
