@@ -19,6 +19,7 @@ public class CS411Project2Parser {
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
+        Tests.runAllTests();
         Grammar g = Grammar.load(new File("grammar.txt"));
 
         //is this even working
