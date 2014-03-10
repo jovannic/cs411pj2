@@ -72,40 +72,44 @@ public class Table {
 //        //swap the dot to allow for shift
 //        listomania.get(tableNum).get(ruleNum).remove(dotIndex);
 //        listomania.get(tableNum).get(ruleNum).add(charNum, DOT);
-
-
     }
 
     private void generateTables(int tableNum) {
         //int tableNum = 0;
         //int ruleNum = 0;
-        int charNum = 0;
         Integer leadingCharacter; //can be nonterminal or terminal, like cancer
         LinkedList<LinkedList<Integer>> ruleList = new LinkedList(); //its called characterList but it is Integers...
+
+        // linked list index lookups aren't cheap, reuse
+        LinkedList<LinkedList<Integer>> table = listomania.get(tableNum);
+
         //for each of the rules in X
-        for (int ruleNum = 0; ruleNum < listomania.get(tableNum).size(); ruleNum++) {
-            ruleList = new LinkedList();
-            charNum = findAfterDot(tableNum, ruleNum);
-            if (charNum < listomania.get(tableNum).get(ruleNum).size()) {
-                leadingCharacter = listomania.get(tableNum).get(ruleNum).get(charNum);
+        for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
+            LinkedList<Integer> rule = table.get(ruleNum);
+
+            int charNum = findAfterDot(rule);
+
+            if (charNum < rule.size()) {
+                leadingCharacter = rule.get(charNum);
             } else {
                 leadingCharacter = -1;
             }
             if (leadingCharacter == -1) {
                 //get the first character
-                Integer production = listomania.get(tableNum).get(ruleNum).get(0);
+                Integer production = rule.get(0);
                 addReduce(tableNum, production);
                 return;
             }
+
             //add all of the rules that match this character
-            for (int i = 0; i < listomania.get(tableNum).size(); i++) {
-                charNum = findAfterDot(tableNum, i);
+            for (int i = 0; i < table.size(); i++) {
+                charNum = findAfterDot(table.get(i));
                 //if it is the same as our leading character
-                if (charNum < listomania.get(tableNum).get(i).size()) {
-                    if (listomania.get(tableNum).get(i).get(charNum) == leadingCharacter) {
+                if (charNum < table.get(i).size()) {
+                    if (table.get(i).get(charNum) == leadingCharacter) {
                         //add it to the list
                         LinkedList l = new LinkedList();
-                        l.addAll((LinkedList) listomania.get(tableNum).get(i).clone());
+                        l.addAll((LinkedList) table.get(i).clone());
                         ruleList.add((LinkedList) l.clone());
                         //we need to clone because we want to be able to manipulate these rules.
                     }
@@ -114,28 +118,23 @@ public class Table {
                 // that means move the zero over one spot
 
             }
-            for (int i = 0; i < ruleList.size(); i++) {
-                int afterDotIndex = 0;
-                Integer a = ruleList.get(i).get(afterDotIndex);
+            for (LinkedList<Integer> ruleListItem : ruleList) {
+                int afterDotIndex = findAfterDot(ruleListItem);
+                Integer a = ruleListItem.get(afterDotIndex);
                 Integer b = DOT;
-                while (afterDotIndex < ruleList.get(i).size() && !a.equals(b)) {
 
-                    // we want to find the value of J where we see 0, or rather our dot
-                    afterDotIndex++;
-                    if (afterDotIndex < ruleList.get(i).size()) {
-                        a = ruleList.get(i).get(afterDotIndex);
-                    }
-                }
-                int dotIndex = afterDotIndex++;
+                int dotIndex = afterDotIndex - 1;
+
                 //make sure we are not out of bounds
-                if (afterDotIndex < ruleList.get(i).size()) {
+                if (afterDotIndex < ruleListItem.size()) {
                     //remove dot
-                    ruleList.get(i).remove(dotIndex);
+                    ruleListItem.remove(dotIndex);
                     //add the dot to its pervious position +1
-                    ruleList.get(i).add(afterDotIndex, DOT);
+                    ruleListItem.add(afterDotIndex, DOT);
                 }
                 //we do this for every rule in the list
             }
+
             // linear search for tables that BEGIN WITH the production rules of the table we want to add
             int gotoTable = doesTableExist(ruleList);
             if (gotoTable == -1) {
@@ -153,6 +152,7 @@ public class Table {
             } else {
                 //do nothing... maybe
             }
+
             if (isTerminal(leadingCharacter)) {
                 //we want to add it to the shift table
                 addShift(tableNum, leadingCharacter, gotoTable);
@@ -162,9 +162,7 @@ public class Table {
                 
                 addGoto(tableNum, leadingCharacter, gotoTable);
             }
-
         }
-
     }
 
     /**
@@ -176,14 +174,17 @@ public class Table {
      */
     private int doesTableExist(LinkedList<LinkedList<Integer>> query) {
         //int tableNum = 0;
-        boolean flag = true;
-        Integer a, b;
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
-            flag = true;
+            LinkedList<LinkedList<Integer>> table = listomania.get(tableNum);
+
+            boolean flag = true;
             for (int i = 0; i < query.size(); i++) {
-                for (int j = 0; j < query.get(i).size(); j++) {
-                    a = listomania.get(tableNum).get(i).get(j);
-                    b = query.get(i).get(j);
+                LinkedList<Integer> queryItem = query.get(i);
+                LinkedList<Integer> tableItem = table.get(i);
+
+                for (int j = 0; j < queryItem.size(); j++) {
+                    Integer a = tableItem.get(j);
+                    Integer b = queryItem.get(j);
                     if (a != b) {
                         flag = false;
                         break;
@@ -202,21 +203,13 @@ public class Table {
         return -1;
     }
 
-    private int findAfterDot(int tableNum, int ruleNum) {
-        int charNum = 0;
-        Integer a = (Integer) listomania.get(tableNum).get(ruleNum).get(charNum);
-        Integer b = DOT;
-        while (charNum < listomania.get(tableNum).get(ruleNum).size() && a.intValue() != b.intValue()) {
-            // we want to find the value of J where we see 0, or rather our dot
-            charNum++; 
-            if(charNum < listomania.get(tableNum).get(ruleNum).size()) {
-                a = listomania.get(tableNum).get(ruleNum).get(charNum);
-            }
-            
-        }
-        int dotIndex = charNum++; // add 1 again to see the information after the dot
-        // also save the position of the dot
-        return charNum;
+    private int findAfterDot(LinkedList<Integer> rule) {
+        // we want to find the value of J where we see 0, or rather our dot
+        int dotIndex = rule.indexOf(DOT);
+
+        // add 1 again to see the information after the dot
+        return dotIndex != -1 ? dotIndex + 1 : 1;
+        // not sure what to do if not found
     }
 
     private boolean isTerminal(int number) {
@@ -230,10 +223,13 @@ public class Table {
     private void addNonterminalsToTable(int tableNum) {
         //int tableNum = 0;
         //int ruleNum = 0;
-        int charNum = 0;
-        for (int ruleNum = 0; ruleNum < listomania.get(tableNum).size(); ruleNum++) {
+        LinkedList<LinkedList<Integer>> table = listomania.get(tableNum);
+        for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
+            LinkedList<Integer> rule = table.get(ruleNum);
+
             //find the point after the dot dot
-            charNum = findAfterDot(tableNum, ruleNum);
+            int charNum = findAfterDot(rule);
+
             //get the character after the dot
             if (charNum < listomania.get(tableNum).get(ruleNum).size()) {
                 Integer productionPointer = listomania.get(tableNum).get(ruleNum).get(charNum);
@@ -254,7 +250,6 @@ public class Table {
                             }
                         }
                     }
-
                 }
             }
         }
