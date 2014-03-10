@@ -231,22 +231,24 @@ public class Table {
             int charNum = findAfterDot(rule);
 
             //get the character after the dot
-            if (charNum < listomania.get(tableNum).get(ruleNum).size()) {
-                Integer productionPointer = listomania.get(tableNum).get(ruleNum).get(charNum);
+            if (charNum < rule.size()) {
+                Integer productionPointer = rule.get(charNum);
                 if (isNonTerminal(productionPointer)) {
                     //find out if the value is a nonterminal, assuming nonterminals are high valued
                     //TODO: need to add the whole when we see a nonterminal thing here
                     // this is where we generate more rows whenever we see a nonterminal
                     for (int i = 0; i < productions.size(); i++) {
-                        if (productions.get(i).get(0).equals(productionPointer)) {
+                        LinkedList<Integer> production = productions.get(i);
+
+                        if (production.get(0).equals(productionPointer)) {
                             //we use a static number because we know there is only 
                             //1 nonterminal followed by a dot in the production list
                             //eg all rules start with X 0, where X is a number
 
                             //we need to check to see if there are any other rules that match the rule we are going to copy over
-                            if (checkForRules(productions.get(i), listomania.get(tableNum)) == false) {
+                            if (checkForRules(production, listomania.get(tableNum)) == false) {
                                 //we want to clone so we do not alter the productions list.
-                                listomania.get(tableNum).add((LinkedList) productions.get(i).clone());
+                                listomania.get(tableNum).add((LinkedList) production.clone());
                             }
                         }
                     }
@@ -260,8 +262,10 @@ public class Table {
         // we want to see if that string of terminals and non terminals with the dot position is an exact match to any of the rules in b
         boolean output = false;
         for (int i = 0; i < b.size(); i++) {
-            for (int j = 0; j < b.get(i).size(); j++) {
-                if (a.get(j) != b.get(i).get(j)) {
+            LinkedList<Integer> bItem = b.get(i);
+
+            for (int j = 0; j < bItem.size(); j++) {
+                if (a.get(j) != bItem.get(j)) {
                     //characters do not match 
                     output = false;
                     //characters do not need to match
