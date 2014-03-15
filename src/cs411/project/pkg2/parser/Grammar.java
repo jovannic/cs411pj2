@@ -52,7 +52,10 @@ public class Grammar {
 
                 if (l.hasNext()) {
                     // read an actual production
-                    int ruleLength = 0;
+                    int ruleLength = 2;
+                    ruleTemp[0] = id;
+                    ruleTemp[1] = 0;
+
                     while (l.hasNext()) {
                         String p = l.next();
 
