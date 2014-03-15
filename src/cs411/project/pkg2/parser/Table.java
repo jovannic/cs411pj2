@@ -120,8 +120,9 @@ public class Table {
             }
             for (LinkedList<Integer> ruleListItem : ruleList) {
                 int afterDotIndex = findAfterDot(ruleListItem);
-                Integer a = ruleListItem.get(afterDotIndex);
-                Integer b = DOT;
+                
+                //Integer a = ruleListItem.get(afterDotIndex);
+                //Integer b = DOT;
 
                 int dotIndex = afterDotIndex - 1;
 
