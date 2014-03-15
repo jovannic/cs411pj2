@@ -8,6 +8,7 @@ import java.util.Map;
  */
 public class HashSLRTable implements SLRTable {
     private Map<Integer, Integer> reduce = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> reduceCount = new HashMap<Integer, Integer>();
     private Map<Integer, Map<Integer, Integer>> shift = new HashMap<Integer, Map<Integer, Integer>>();
     private Map<Integer, Map<Integer, Integer>> gotos = new HashMap<Integer, Map<Integer, Integer>>();
 
@@ -19,13 +20,22 @@ public class HashSLRTable implements SLRTable {
 
     @Override
     public boolean addShift(int tableNum, int symbol, int gotoTable) {
+        if (reduce.containsKey(tableNum))
+            System.out.println("Shift/reduce conflict at " + tableNum);
+
         add(shift, tableNum, symbol, gotoTable);
         return true;
     }
 
     @Override
-    public boolean addReduce(int tableNum, int symbol) {
+    public boolean addReduce(int tableNum, int symbol, int count) {
+        if (reduce.containsKey(tableNum))
+            System.out.println("Reduce reduce conflict at " + tableNum);
+        else if (shift.containsKey(tableNum))
+            System.out.println("Shift/reduce conflict at " + tableNum);
+
         reduce.put(tableNum, symbol);
+        reduceCount.put(tableNum, count);
         return true;
     }
 
@@ -43,6 +53,11 @@ public class HashSLRTable implements SLRTable {
     public int getReduce(int tableNum) {
         Integer r = reduce.get(tableNum);
         return r != null ? r : -1;
+    }
+
+    @Override
+    public int getReduceCount(int tableNum) {
+        return reduceCount.get(tableNum);
     }
 
     private int get(Map<Integer, Map<Integer, Integer>> map, int tableID, int symbol) {

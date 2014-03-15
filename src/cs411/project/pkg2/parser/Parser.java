@@ -18,7 +18,12 @@ public class Parser {
         this.finalReduceValue = finalReduce;
     }
 
-    public boolean parse(Lexer lexer) {
+    /**
+     * Parse a stream of tokens from a lexer
+     * @param lexer The lexer interface to pull tokens from
+     * @return The output string if accepted, else null
+     */
+    public List<Integer> parse(Lexer lexer) {
         Deque<Integer> stack = new ArrayDeque<Integer>();
         List<Integer> output = new ArrayList<Integer>();
 
@@ -48,16 +53,13 @@ public class Parser {
                     output.add(reduce);
 
                     // pop the correct number
-                    int reduceCount = 1; // TODO: make number to shift available to parser
+                    int reduceCount = table.getReduceCount(state);
                     for (int i = 0; i < reduceCount; i++)
                         stack.pop();
 
-                    // nonterminal we're reducing to
-                    int left = 0; // TODO: make nonterminal we're reducing to available to parser
-
                     // for now current state, goto for that non-terminal
                     state = stack.peek();
-                    stack.push(table.getGoto(state, left));
+                    stack.push(table.getGoto(state, reduce));
                 } else {
                     // no action defined, error
                     throw new IllegalArgumentException("No action defined for token");
@@ -70,9 +72,9 @@ public class Parser {
         int reduce = table.getReduce(state);
         if (reduce == finalReduceValue) {
             //accept
-            return true;
+            return output;
         }
 
-        return false;
+        return null;
     }
 }

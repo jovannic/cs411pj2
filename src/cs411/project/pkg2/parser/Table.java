@@ -97,7 +97,8 @@ public class Table {
             if (leadingCharacter == -1) {
                 //get the first character
                 Integer production = rule.get(0);
-                addReduce(tableNum, production);
+                int right = 0; // TODO: acctual value
+                addReduce(tableNum, production, right);
                 return;
             }
 
@@ -292,7 +293,7 @@ public class Table {
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private void addReduce(int tableNum, Integer production) {
+    private void addReduce(int tableNum, Integer production, int count) {
         System.out.println("Reduce:  " + tableNum + "\t" + production);
         //throw new UnsupportedOperationException("Not yet implemented");
     }
