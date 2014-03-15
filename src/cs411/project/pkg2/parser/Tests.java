@@ -48,9 +48,11 @@ public class Tests {
         li.add(new Integer(2));
         li.add(new Integer(0));
         l.add(li);
+        li = new LinkedList();
         li.add(new Integer(3));
         li.add(new Integer(0));
         l.add(li);
+        li = new LinkedList();
         Table t = new Table(l,4);
         t.makeAi();
         printList(t.getLists());
