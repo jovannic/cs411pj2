@@ -10,6 +10,7 @@ import cs411.project.lexer.Lexer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * CS 411 Project 2 Parser
@@ -30,7 +31,7 @@ public class CS411Project2Parser {
         Table macTable = new Table(g.allRules());
         macTable.makeAi();
         tests.printList(macTable.getLists());
-        SLRTable table = null; // TODO: get table from Mac's Table
+        SLRTable table = macTable.getTable(); // TODO: get table from Mac's Table
         Parser parser = new Parser(table, 0); // TODO: figure out where to accept correctly
 
         // Jovanni's lexer
@@ -38,6 +39,6 @@ public class CS411Project2Parser {
         CharStream stream = new BasicFileStream("input.txt");
 
         // TODO: do above TODOs so this acctually works
-        //List<Integer> output = parser.parse(new JovanniLexingStream(lexer, stream));
+        List<Integer> output = parser.parse(new JovanniLexingStream(lexer, stream));
     }
 }

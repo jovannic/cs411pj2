@@ -20,6 +20,8 @@ public class Table {
     private List<List<List<Integer>>> listomania;
     //this should not change, so it should be final
     private final List<List<Integer>> productions;
+
+    
     private SLRTable table;
 
     public Table(List<List<Integer>> productions) {
@@ -48,6 +50,9 @@ public class Table {
      */
     public List<List<List<Integer>>> getLists() {
         return listomania;
+    }
+    public SLRTable getTable() {
+        return table;
     }
 
     public void makeAi() {
