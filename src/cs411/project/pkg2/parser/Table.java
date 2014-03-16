@@ -16,13 +16,14 @@ public class Table {
     private int nonterminal = 0;  // this is where our nonterminals will begin
     private static final Integer DOT = 0; // the value of our dot
     private static final Integer AFTER_DOT = 2;
-    private LinkedList<LinkedList<LinkedList<Integer>>> listomania;
+    private LinkedList<LinkedList<List<Integer>>> listomania;
     //this should not change, so it should be final
     private final LinkedList<LinkedList<Integer>> productions;
     private SLRTable table;
 
     public Table(LinkedList<LinkedList<Integer>> productions) {
         this.productions = productions;
+
         listomania = new LinkedList();
         table = new HashSLRTable();
     }
@@ -44,7 +45,7 @@ public class Table {
      *
      * @return
      */
-    public LinkedList<LinkedList<LinkedList<Integer>>> getLists() {
+    public LinkedList<LinkedList<List<Integer>>> getLists() {
         return listomania;
     }
 
@@ -70,13 +71,13 @@ public class Table {
         LinkedList<LinkedList<Integer>> ruleList = new LinkedList(); //its called characterList but it is Integers...
 
         // linked list index lookups aren't cheap, reuse
-        LinkedList<LinkedList<Integer>> table = listomania.get(tableNum);
+        LinkedList<List<Integer>> table = listomania.get(tableNum);
 
         //for each of the rules in X
         
         for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
             ruleList = new LinkedList();
-            LinkedList<Integer> rule = table.get(ruleNum);
+            List<Integer> rule = table.get(ruleNum);
 
             int charNum = findAfterDot(rule);
 
@@ -100,9 +101,7 @@ public class Table {
                 if (charNum < table.get(i).size()) {
                     if (table.get(i).get(charNum).intValue() == leadingCharacter.intValue()) {
                         //add it to the list
-                        LinkedList l = new LinkedList();
-                        l.addAll((LinkedList) table.get(i).clone());
-                        ruleList.add((LinkedList) l.clone());
+                        ruleList.add(new LinkedList(table.get(i)));
                         //we need to clone because we want to be able to manipulate these rules.
                     }
                 }
@@ -163,12 +162,12 @@ public class Table {
     private int doesTableExist(LinkedList<LinkedList<Integer>> query) {
         //int tableNum = 0;
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
-            LinkedList<LinkedList<Integer>> table = listomania.get(tableNum);
+            LinkedList<List<Integer>> table = listomania.get(tableNum);
 
             boolean flag = true;
             for (int i = 0; i < query.size(); i++) {
-                LinkedList<Integer> queryItem = query.get(i);
-                LinkedList<Integer> tableItem = table.get(i);
+                List<Integer> queryItem = query.get(i);
+                List<Integer> tableItem = table.get(i);
 
                 for (int j = 0; j < queryItem.size(); j++) {
                     Integer a = tableItem.get(j);
@@ -191,7 +190,7 @@ public class Table {
         return -1;
     }
 
-    private int findAfterDot(LinkedList<Integer> rule) {
+    private int findAfterDot(List<Integer> rule) {
         // we want to find the value of J where we see 0, or rather our dot
         int dotIndex = rule.indexOf(DOT);
 
@@ -211,9 +210,9 @@ public class Table {
     private void addNonterminalsToTable(int tableNum) {
         //int tableNum = 0;
         //int ruleNum = 0;
-        LinkedList<LinkedList<Integer>> table = listomania.get(tableNum);
+        LinkedList<List<Integer>> table = listomania.get(tableNum);
         for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
-            LinkedList<Integer> rule = table.get(ruleNum);
+            List<Integer> rule = table.get(ruleNum);
 
             //find the point after the dot dot
             int charNum = findAfterDot(rule);
@@ -245,12 +244,12 @@ public class Table {
         }
     }
 
-    private boolean checkForRules(LinkedList<Integer> a, LinkedList<LinkedList<Integer>> b) {
+    private boolean checkForRules(List<Integer> a, LinkedList<List<Integer>> b) {
         // a is a list of terminals and non terminals
         // we want to see if that string of terminals and non terminals with the dot position is an exact match to any of the rules in b
         boolean output = false;
         for (int i = 0; i < b.size(); i++) {
-            LinkedList<Integer> bItem = b.get(i);
+            List<Integer> bItem = b.get(i);
 
             for (int j = 0; j < bItem.size(); j++) {
                 if (a.get(j).intValue() != bItem.get(j).intValue()) {
