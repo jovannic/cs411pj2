@@ -63,22 +63,9 @@ public class Table {
             generateTables(tableNum);
             
         }
-
-        //bench this code
-        //shifting done
-//        LinkedList<Integer> clone = (LinkedList<Integer>) listomania.get(tableNum).get(ruleNum).clone();
-//        //make a new table for the shift
-//        listomania.add(tableNum + 1, new LinkedList());
-//        // add the new rule to the table
-//        listomania.get(tableNum + 1).add(clone);
-//        //swap the dot to allow for shift
-//        listomania.get(tableNum).get(ruleNum).remove(dotIndex);
-//        listomania.get(tableNum).get(ruleNum).add(charNum, DOT);
     }
 
     private void generateTables(int tableNum) {
-        //int tableNum = 0;
-        //int ruleNum = 0;
         Integer leadingCharacter; //can be nonterminal or terminal, like cancer
         LinkedList<LinkedList<Integer>> ruleList = new LinkedList(); //its called characterList but it is Integers...
 
@@ -121,7 +108,6 @@ public class Table {
                 }
                 //we need to shift all of the rules
                 // that means move the zero over one spot
-
             }
             for (LinkedList<Integer> ruleListItem : ruleList) {
                 int afterDotIndex = findAfterDot(ruleListItem);
@@ -137,7 +123,6 @@ public class Table {
                 }
                 //we do this for every rule in the list
             }
-
             // linear search for tables that BEGIN WITH the production rules of the table we want to add
             int gotoTable = doesTableExist(ruleList);
             if (gotoTable == -1) {
@@ -188,7 +173,7 @@ public class Table {
                 for (int j = 0; j < queryItem.size(); j++) {
                     Integer a = tableItem.get(j);
                     Integer b = queryItem.get(j);
-                    if (a != b) {
+                    if (a.intValue() != b.intValue()) {
                         flag = false;
                         break;
                     }
@@ -268,7 +253,7 @@ public class Table {
             LinkedList<Integer> bItem = b.get(i);
 
             for (int j = 0; j < bItem.size(); j++) {
-                if (a.get(j) != bItem.get(j)) {
+                if (a.get(j).intValue() != bItem.get(j).intValue()) {
                     //characters do not match 
                     output = false;
                     //characters do not need to match
@@ -290,18 +275,15 @@ public class Table {
     private void addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
         System.out.println("goto:  " + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
         table.addGoto(tableNum, leadingCharacter, gotoTable);
-        //throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
         System.out.println("Shift:  " + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
         table.addShift(tableNum, leadingCharacter, gotoTable);
-        //throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void addReduce(int tableNum, Integer production, int count) {
         System.out.println("Reduce:  " + tableNum + "\t" + production);
         table.addReduce(tableNum, production, count);
-        //throw new UnsupportedOperationException("Not yet implemented");
     }
 }
