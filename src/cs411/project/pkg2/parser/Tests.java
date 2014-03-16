@@ -102,7 +102,7 @@ public class Tests {
             for (int j = 0; j < l.get(i).size(); j++) {
                 
                 for(int k = 0; k < l.get(i).get(j).size(); k++) {
-                    System.out.print((/*g.nameOf(l.get(i).get(j).get(k)) != null ? g.nameOf(l.get(i).get(j).get(k)) :*/ (l.get(i).get(j).get(k))) + " ");
+                    System.out.print((g.nameOf(l.get(i).get(j).get(k)) != null ? g.nameOf(l.get(i).get(j).get(k)) : (l.get(i).get(j).get(k))) + " ");
                     
                 }
                 System.out.println();

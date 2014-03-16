@@ -7,9 +7,7 @@ Decl ::= FunctionDecl
 Decl ::= ClassDecl
 Decl ::= InterfaceDecl
 
-VariableDecl ::= Variable _semicolon
-
-Variable ::= Type _id
+VariableDecl ::= Type _id _semicolon
 
 Type ::= _int
 Type ::= _double
