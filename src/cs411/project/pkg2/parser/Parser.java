@@ -11,11 +11,13 @@ import java.util.List;
 public class Parser {
     private final SLRTable table;
     private final int finalReduceValue;
+    private final List<List<Integer>> productions;
 
-    public Parser(SLRTable table, int finalReduce) {
+    public Parser(SLRTable table, int finalReduce, List<List<Integer>> productions) {
         // the table is the identity of the parser
         this.table = table;
         this.finalReduceValue = finalReduce;
+        this.productions = productions;
     }
 
     /**
@@ -23,7 +25,7 @@ public class Parser {
      * @param lexer The lexer interface to pull tokens from
      * @return The output string if accepted, else null
      */
-    public List<Integer> parse(LexingStream lexer) {
+    public List<Integer> parse(LexingStream lexer) throws IllegalArgumentException {
         Deque<Integer> stack = new ArrayDeque<Integer>();
         List<Integer> output = new ArrayList<Integer>();
 
@@ -59,7 +61,7 @@ public class Parser {
 
                     // for now current state, goto for that non-terminal
                     state = stack.peek();
-                    stack.push(table.getGoto(state, reduce));
+                    stack.push(table.getGoto(state, productions.get(table.getReduce(state)).get(0)));
                 } else {
                     // no action defined, error
                     throw new IllegalArgumentException("No action defined for token");

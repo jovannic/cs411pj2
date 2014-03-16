@@ -32,13 +32,17 @@ public class CS411Project2Parser {
         macTable.makeAi();
         tests.printList(macTable.getLists());
         SLRTable table = macTable.getTable(); // TODO: get table from Mac's Table
-        Parser parser = new Parser(table, 0); // TODO: figure out where to accept correctly
+        Parser parser = new Parser(table, 0, g.allRules()); // TODO: figure out where to accept correctly
 
         // Jovanni's lexer
         Lexer lexer = new Lexer();
-        CharStream stream = new BasicFileStream("input.txt");
+        CharStream stream = new BasicFileStream("input2.txt");
 
         // TODO: do above TODOs so this acctually works
+        try{
         List<Integer> output = parser.parse(new JovanniLexingStream(lexer, stream));
+        } catch(IllegalArgumentException e) {
+            System.out.println("Useful Information about the error that just happened");
+        }
     }
 }
