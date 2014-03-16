@@ -50,12 +50,12 @@ public class Grammar {
                 int id = g.idOf(name);
                 g.ensureIndex(id);
 
+                int ruleLength = 2;
+                ruleTemp[0] = id;
+                ruleTemp[1] = 0;
+
                 if (l.hasNext()) {
                     // read an actual production
-                    int ruleLength = 2;
-                    ruleTemp[0] = id;
-                    ruleTemp[1] = 0;
-
                     while (l.hasNext()) {
                         String p = l.next();
 
@@ -74,12 +74,11 @@ public class Grammar {
                             }
                         }
                     }
-
-                    g.addRule(id, Arrays.copyOf(ruleTemp, ruleLength));
                 } else {
                     // empty string
-                    g.addRule(id, EMPTY);
                 }
+
+                g.addRule(id, Arrays.copyOf(ruleTemp, ruleLength));
             }
         }
         lines.close();
