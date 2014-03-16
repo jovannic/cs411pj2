@@ -19,17 +19,17 @@ public class Tests {
     private static void tableTest() {
         LinkedList<LinkedList<Integer>> l = new LinkedList();
         LinkedList<Integer> li = new LinkedList();
-        li.add(new Integer(1));
+        li.add(new Integer(10));
         li.add(new Integer(0));
         li.add(new Integer(5));
-        li.add(new Integer(2));
+        li.add(new Integer(20));
         l.add(li);
         li = new LinkedList();
-        li.add(new Integer(2));
+        li.add(new Integer(20));
         li.add(new Integer(0));
         li.add(new Integer(6));
         l.add(li);
-        Table t = new Table(l,4);
+        Table t = new Table(l,9);
         t.makeAi();
         printList(t.getLists());
     }
@@ -37,23 +37,24 @@ public class Tests {
     private static void emptyProductionTest() {
         LinkedList<LinkedList<Integer>> l = new LinkedList();
         LinkedList<Integer> li = new LinkedList();
-        li.add(new Integer(1));
+        li.add(new Integer(10));
         li.add(new Integer(0));
         li.add(new Integer(5));
-        li.add(new Integer(2));
-        li.add(new Integer(3));
+        li.add(new Integer(20));
+        li.add(new Integer(30));
         li.add(new Integer(7));
         l.add(li);
         li = new LinkedList();
-        li.add(new Integer(2));
+        li.add(new Integer(20));
+        li.add(new Integer(0));
+        li.add(new Integer(-1));
+        l.add(li);
+        li = new LinkedList();
+        li.add(new Integer(30));
         li.add(new Integer(0));
         l.add(li);
         li = new LinkedList();
-        li.add(new Integer(3));
-        li.add(new Integer(0));
-        l.add(li);
-        li = new LinkedList();
-        Table t = new Table(l,4);
+        Table t = new Table(l,9);
         t.makeAi();
         printList(t.getLists());
     }

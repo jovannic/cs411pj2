@@ -19,10 +19,12 @@ public class Table {
     private LinkedList<LinkedList<LinkedList<Integer>>> listomania;
     //this should not change, so it should be final
     private final LinkedList<LinkedList<Integer>> productions;
+    private SLRTable table;
 
     public Table(LinkedList<LinkedList<Integer>> productions) {
         this.productions = productions;
         listomania = new LinkedList();
+        table = new HashSLRTable();
     }
 
     /**
@@ -84,7 +86,9 @@ public class Table {
         LinkedList<LinkedList<Integer>> table = listomania.get(tableNum);
 
         //for each of the rules in X
+        
         for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
+            ruleList = new LinkedList();
             LinkedList<Integer> rule = table.get(ruleNum);
 
             int charNum = findAfterDot(rule);
@@ -92,9 +96,9 @@ public class Table {
             if (charNum < rule.size()) {
                 leadingCharacter = rule.get(charNum);
             } else {
-                leadingCharacter = -1;
+                leadingCharacter = Integer.MIN_VALUE;
             }
-            if (leadingCharacter == -1) {
+            if (leadingCharacter.intValue() == Integer.MIN_VALUE) {
                 //get the first character
                 Integer production = rule.get(0);
                 int right = 0; // TODO: acctual value
@@ -107,7 +111,7 @@ public class Table {
                 charNum = findAfterDot(table.get(i));
                 //if it is the same as our leading character
                 if (charNum < table.get(i).size()) {
-                    if (table.get(i).get(charNum) == leadingCharacter) {
+                    if (table.get(i).get(charNum).intValue() == leadingCharacter.intValue()) {
                         //add it to the list
                         LinkedList l = new LinkedList();
                         l.addAll((LinkedList) table.get(i).clone());
@@ -212,7 +216,7 @@ public class Table {
     }
 
     private boolean isTerminal(int number) {
-        return number > nonterminal;
+        return number < nonterminal;
     }
 
     private boolean isNonTerminal(int number) {
@@ -285,16 +289,19 @@ public class Table {
 
     private void addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
         System.out.println("goto:  " + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
+        table.addGoto(tableNum, leadingCharacter, gotoTable);
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
         System.out.println("Shift:  " + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
+        table.addShift(tableNum, leadingCharacter, gotoTable);
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void addReduce(int tableNum, Integer production, int count) {
         System.out.println("Reduce:  " + tableNum + "\t" + production);
+        table.addReduce(tableNum, production, count);
         //throw new UnsupportedOperationException("Not yet implemented");
     }
 }
