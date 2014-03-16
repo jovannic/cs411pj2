@@ -1,5 +1,8 @@
-package cs411.project.lexer;
+package cs411.project.pkg2.parser;
 
+import cs411.project.lexer.CharStream;
+import cs411.project.lexer.Lexer;
+import cs411.project.lexer.Token;
 import cs411.project.pkg2.parser.LexingStream;
 
 import java.io.IOException;

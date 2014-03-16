@@ -6,7 +6,6 @@ package cs411.project.pkg2.parser;
 
 import cs411.project.lexer.BasicFileStream;
 import cs411.project.lexer.CharStream;
-import cs411.project.lexer.JovanniLexingStream;
 import cs411.project.lexer.Lexer;
 
 import java.io.File;
@@ -28,7 +27,7 @@ public class CS411Project2Parser {
         Tests.runAllTests();
         Grammar g = Grammar.load(new File("grammar.txt"));
 
-        /*
+
         SLRTable table = null; // TODO: get table from Mac's Table
         Parser parser = new Parser(table, 0); // TODO: figure out where to accept correctly
 
@@ -36,7 +35,7 @@ public class CS411Project2Parser {
         Lexer lexer = new Lexer();
         CharStream stream = new BasicFileStream("input.txt");
 
-        List<Integer> output = parser.parse(new JovanniLexingStream(lexer, stream));
-        */
+        // TODO: do above TODOs so this acctually works
+        //List<Integer> output = parser.parse(new JovanniLexingStream(lexer, stream));
     }
 }
