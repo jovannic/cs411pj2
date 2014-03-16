@@ -9,6 +9,8 @@ Decl ::= InterfaceDecl
 
 VariableDecl ::= Type _id _semicolon
 
+Variable ::= Type _id
+
 Type ::= _int
 Type ::= _double
 Type ::= _bool
