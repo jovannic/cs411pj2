@@ -247,9 +247,10 @@ public class Table {
         // a is a list of terminals and non terminals
         // we want to see if that string of terminals and non terminals with the dot position is an exact match to any of the rules in b
         boolean output = false;
+        
         for (int i = 0; i < b.size(); i++) {
             List<Integer> bItem = b.get(i);
-
+            if (a.size() == b.get(i).size()) {
             for (int j = 0; j < bItem.size(); j++) {
                 if (a.get(j).intValue() != bItem.get(j).intValue()) {
                     //characters do not match 
@@ -260,6 +261,7 @@ public class Table {
                     // if the characters match, and continue to match, set it to true.
                     output = true;
                 }
+            }
             }
             //
             if (output == true) {

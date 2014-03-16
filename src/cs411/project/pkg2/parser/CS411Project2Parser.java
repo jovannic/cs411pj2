@@ -23,12 +23,13 @@ public class CS411Project2Parser {
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        Tests.runAllTests();
+        
         Grammar g = Grammar.load(new File("grammar.txt"));
-
+        Tests tests = new Tests(g);
+        tests.runAllTests();
         Table macTable = new Table(g.allRules());
         macTable.makeAi();
-        Tests.printList(macTable.getLists());
+        tests.printList(macTable.getLists());
         SLRTable table = null; // TODO: get table from Mac's Table
         Parser parser = new Parser(table, 0); // TODO: figure out where to accept correctly
 
