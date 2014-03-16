@@ -27,7 +27,8 @@ public class CS411Project2Parser {
         Grammar g = Grammar.load(new File("grammar.txt"));
 
         Table macTable = new Table(g.allRules());
-
+        macTable.makeAi();
+        Tests.printList(macTable.getLists());
         SLRTable table = null; // TODO: get table from Mac's Table
         Parser parser = new Parser(table, 0); // TODO: figure out where to accept correctly
 

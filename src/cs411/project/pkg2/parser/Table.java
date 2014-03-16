@@ -4,6 +4,7 @@
  */
 package cs411.project.pkg2.parser;
 
+import cs411.project.lexer.Token;
 import java.util.LinkedList;
 import java.util.*;
 
@@ -13,7 +14,7 @@ import java.util.*;
  */
 public class Table {
 
-    private int nonterminal = 0;  // this is where our nonterminals will begin
+    private int nonterminal = 46;//Token._HASHTAGDOTFUCKITDOTJPG.ordinal();  // this is where our nonterminals will begin
     private static final Integer DOT = 0; // the value of our dot
     private static final Integer AFTER_DOT = 2;
     private List<List<List<Integer>>> listomania;

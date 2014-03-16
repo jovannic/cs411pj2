@@ -30,6 +30,11 @@ public class Tests {
         li.add(new Integer(0));
         li.add(new Integer(6));
         l.add(li);
+        li = new LinkedList();
+        li.add(new Integer(20));
+        li.add(new Integer(0));
+        li.add(new Integer(7));
+        l.add(li);
         Table t = new Table(l,9);
         t.makeAi();
         printList(t.getLists());
@@ -60,7 +65,7 @@ public class Tests {
         printList(t.getLists());
     }
     
-    private static void printList(List<List<List<Integer>>> l) {
+    public static void printList(List<List<List<Integer>>> l) {
         System.out.println();
         for(int i = 0; i < l.size(); i++) {
             

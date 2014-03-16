@@ -93,7 +93,7 @@ public class Grammar {
 
     public List<List<Integer>> rulesFor(int nonterminalID) {
         nonterminalID -= firstNonterminal;
-        return nonterminalID < rulesFor.size() ? Collections.unmodifiableList(rulesFor.get(nonterminalID)) : null;
+        return nonterminalID < rulesFor.size() ? rulesFor.get(nonterminalID) : null;
     }
 
     public List<List<Integer>> allRules() {
