@@ -8,6 +8,7 @@ import cs411.project.pkg2.parser.LexingStream;
 import java.io.IOException;
 
 /**
+ * Wraps Jovanni's Project 1 Lexer to implement the parser's expected lexer interface
  * @author Jovanni Cutigni
  */
 public class JovanniLexingStream implements LexingStream {

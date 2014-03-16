@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Jovanni on 3/4/14.
+ * HashMap based reference implementation of the SLRTable interface.
+ * <p>inefficient, not compact, but easy to implement, hard to screw up.</p>
+ * @author Jovanni Cutigni
  */
 public class HashSLRTable implements SLRTable {
     private Map<Integer, Integer> reduce = new HashMap<Integer, Integer>();
