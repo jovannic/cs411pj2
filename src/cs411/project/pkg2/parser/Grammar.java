@@ -94,11 +94,11 @@ public class Grammar {
 
     public List<int[]> rulesFor(int nonterminalID) {
         nonterminalID -= firstNonterminal;
-        return nonterminalID < rulesFor.size() ? rulesFor.get(nonterminalID) : null;
+        return nonterminalID < rulesFor.size() ? Collections.unmodifiableList(rulesFor.get(nonterminalID)) : null;
     }
 
     public List<int[]> allRules() {
-        return rules;
+        return Collections.unmodifiableList(rules);
     }
 
     public Integer idOf(String name) {
