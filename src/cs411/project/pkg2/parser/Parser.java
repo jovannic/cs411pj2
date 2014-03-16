@@ -23,7 +23,7 @@ public class Parser {
      * @param lexer The lexer interface to pull tokens from
      * @return The output string if accepted, else null
      */
-    public List<Integer> parse(Lexer lexer) {
+    public List<Integer> parse(LexingStream lexer) {
         Deque<Integer> stack = new ArrayDeque<Integer>();
         List<Integer> output = new ArrayList<Integer>();
 
