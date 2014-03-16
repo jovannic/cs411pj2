@@ -11,8 +11,6 @@ import java.util.*;
  * @author Jovanni Cutigni
  */
 public class Grammar {
-    private static final int[] EMPTY = new int[0];
-
     private int firstNonterminal;
     private int nextNonterminal;
 
@@ -21,6 +19,7 @@ public class Grammar {
 
     // rulseFor[nonterminalID] -> List of production rules
     private ArrayList<ArrayList<int[]>> rulesFor = new ArrayList<ArrayList<int[]>>();
+    private ArrayList<int[]> rules = new ArrayList<int[]>();
 
     public static Grammar load(File file) throws IOException {
         Scanner lines = new Scanner(file);
@@ -98,6 +97,10 @@ public class Grammar {
         return nonterminalID < rulesFor.size() ? rulesFor.get(nonterminalID) : null;
     }
 
+    public List<int[]> allRules() {
+        return rules;
+    }
+
     public Integer idOf(String name) {
         Integer id = ids.get(name);
         if (id == null) {
@@ -139,6 +142,9 @@ public class Grammar {
             rulesFor.set(id, ruleList);
         }
 
+        // list indexed by nonterminal
         ruleList.add(rule);
+        // list of all production
+        rules.add(rule);
     }
 }
