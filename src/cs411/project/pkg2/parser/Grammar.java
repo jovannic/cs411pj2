@@ -11,6 +11,8 @@ import java.util.*;
  * @author Jovanni Cutigni
  */
 public class Grammar {
+    public static final int DOT = 0;
+
     private int firstNonterminal;
     private int nextNonterminal;
 
@@ -18,8 +20,8 @@ public class Grammar {
     Map<Integer, String> names = new HashMap<Integer, String>();
 
     // rulseFor[nonterminalID] -> List of production rules
-    private ArrayList<ArrayList<int[]>> rulesFor = new ArrayList<ArrayList<int[]>>();
-    private ArrayList<int[]> rules = new ArrayList<int[]>();
+    private ArrayList<ArrayList<List<Integer>>> rulesFor = new ArrayList<ArrayList<List<Integer>>>();
+    private ArrayList<List<Integer>> rules = new ArrayList<List<Integer>>();
 
     public static Grammar load(File file) throws IOException {
         Scanner lines = new Scanner(file);
@@ -30,9 +32,6 @@ public class Grammar {
 
         // stuff used before it was declared
         Set<Integer> usedBeforeDefined = new HashSet<Integer>();
-
-        // re-use this
-        int[] ruleTemp = new int[128];
 
         // read line by line
         while (lines.hasNextLine()) {
@@ -49,9 +48,9 @@ public class Grammar {
                 int id = g.idOf(name);
                 g.ensureIndex(id);
 
-                int ruleLength = 2;
-                ruleTemp[0] = id;
-                ruleTemp[1] = 0;
+                ArrayList<Integer> ruleTemp = new ArrayList<Integer>();
+                ruleTemp.add(id);
+                ruleTemp.add(DOT);
 
                 if (l.hasNext()) {
                     // read an actual production
@@ -61,11 +60,11 @@ public class Grammar {
                         if (p.charAt(0) == '_') {
                             // starts with underscore, should be a terminal Token
                             Token t = Token.valueOf(p);
-                            ruleTemp[ruleLength++] = t.ordinal();
+                            ruleTemp.add(t.ordinal());
                         } else {
                             // must be nonterminal
                             int ntid = g.idOf(p);
-                            ruleTemp[ruleLength++] = ntid;
+                            ruleTemp.add(ntid);
 
                             // if not already defined, remember to check later
                             if (g.rulesFor(ntid) == null) {
@@ -77,7 +76,7 @@ public class Grammar {
                     // empty string
                 }
 
-                g.addRule(id, Arrays.copyOf(ruleTemp, ruleLength));
+                g.addRule(id, ruleTemp);
             }
         }
         lines.close();
@@ -92,12 +91,12 @@ public class Grammar {
         return g;
     }
 
-    public List<int[]> rulesFor(int nonterminalID) {
+    public List<List<Integer>> rulesFor(int nonterminalID) {
         nonterminalID -= firstNonterminal;
         return nonterminalID < rulesFor.size() ? Collections.unmodifiableList(rulesFor.get(nonterminalID)) : null;
     }
 
-    public List<int[]> allRules() {
+    public List<List<Integer>> allRules() {
         return Collections.unmodifiableList(rules);
     }
 
@@ -131,14 +130,14 @@ public class Grammar {
         }
     }
 
-    private void addRule(int id, int[] rule) {
+    private void addRule(int id, List<Integer> rule) {
         id -= firstNonterminal;
 
         ensureIndex(id);
 
-        ArrayList<int[]> ruleList = rulesFor.get(id);
+        ArrayList<List<Integer>> ruleList = rulesFor.get(id);
         if (ruleList == null) {
-            ruleList = new ArrayList<int[]>();
+            ruleList = new ArrayList<List<Integer>>();
             rulesFor.set(id, ruleList);
         }
 
