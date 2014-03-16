@@ -10,7 +10,6 @@ import cs411.project.lexer.Lexer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * CS 411 Project 2 Parser

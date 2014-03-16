@@ -5,6 +5,7 @@
 package cs411.project.pkg2.parser;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -17,8 +18,8 @@ public class Tests {
     }
     
     private static void tableTest() {
-        LinkedList<LinkedList<Integer>> l = new LinkedList();
-        LinkedList<Integer> li = new LinkedList();
+        List<List<Integer>> l = new LinkedList();
+        List<Integer> li = new LinkedList();
         li.add(new Integer(10));
         li.add(new Integer(0));
         li.add(new Integer(5));
@@ -35,8 +36,8 @@ public class Tests {
     }
     
     private static void emptyProductionTest() {
-        LinkedList<LinkedList<Integer>> l = new LinkedList();
-        LinkedList<Integer> li = new LinkedList();
+        List<List<Integer>> l = new LinkedList();
+        List<Integer> li = new LinkedList();
         li.add(new Integer(10));
         li.add(new Integer(0));
         li.add(new Integer(5));
@@ -59,7 +60,7 @@ public class Tests {
         printList(t.getLists());
     }
     
-    private static void printList(LinkedList<LinkedList<LinkedList<Integer>>> l) {
+    private static void printList(List<List<List<Integer>>> l) {
         System.out.println();
         for(int i = 0; i < l.size(); i++) {
             

@@ -16,7 +16,7 @@ public class Table {
     private int nonterminal = 0;  // this is where our nonterminals will begin
     private static final Integer DOT = 0; // the value of our dot
     private static final Integer AFTER_DOT = 2;
-    private LinkedList<LinkedList<List<Integer>>> listomania;
+    private List<List<List<Integer>>> listomania;
     //this should not change, so it should be final
     private final List<List<Integer>> productions;
     private SLRTable table;
@@ -35,7 +35,7 @@ public class Table {
      * @param nonterminal A value for when terminals stop and nonterminals begin
      * or vise versa
      */
-    public Table(LinkedList<List<Integer>> productions, int nonterminal) {
+    public Table(List<List<Integer>> productions, int nonterminal) {
         this(productions);
         this.nonterminal = nonterminal;
     }
@@ -45,7 +45,7 @@ public class Table {
      *
      * @return
      */
-    public LinkedList<LinkedList<List<Integer>>> getLists() {
+    public List<List<List<Integer>>> getLists() {
         return listomania;
     }
 
@@ -68,7 +68,7 @@ public class Table {
 
     private void generateTables(int tableNum) {
         // linked list index lookups aren't cheap, reuse
-        LinkedList<List<Integer>> table = listomania.get(tableNum);
+        List<List<Integer>> table = listomania.get(tableNum);
 
         //for each of the rules in X
         for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
@@ -160,7 +160,7 @@ public class Table {
     private int doesTableExist(List<List<Integer>> query) {
         //int tableNum = 0;
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
-            LinkedList<List<Integer>> table = listomania.get(tableNum);
+            List<List<Integer>> table = listomania.get(tableNum);
 
             boolean flag = true;
             for (int i = 0; i < query.size(); i++) {
@@ -208,7 +208,7 @@ public class Table {
     private void addNonterminalsToTable(int tableNum) {
         //int tableNum = 0;
         //int ruleNum = 0;
-        LinkedList<List<Integer>> table = listomania.get(tableNum);
+        List<List<Integer>> table = listomania.get(tableNum);
         for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
             List<Integer> rule = table.get(ruleNum);
 
@@ -242,7 +242,7 @@ public class Table {
         }
     }
 
-    private boolean checkForRules(List<Integer> a, LinkedList<List<Integer>> b) {
+    private boolean checkForRules(List<Integer> a, List<List<Integer>> b) {
         // a is a list of terminals and non terminals
         // we want to see if that string of terminals and non terminals with the dot position is an exact match to any of the rules in b
         boolean output = false;
