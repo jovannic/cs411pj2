@@ -18,10 +18,10 @@ public class Table {
     private static final Integer AFTER_DOT = 2;
     private LinkedList<LinkedList<List<Integer>>> listomania;
     //this should not change, so it should be final
-    private final LinkedList<LinkedList<Integer>> productions;
+    private final List<List<Integer>> productions;
     private SLRTable table;
 
-    public Table(LinkedList<LinkedList<Integer>> productions) {
+    public Table(List<List<Integer>> productions) {
         this.productions = productions;
 
         listomania = new LinkedList();
@@ -35,7 +35,7 @@ public class Table {
      * @param nonterminal A value for when terminals stop and nonterminals begin
      * or vise versa
      */
-    public Table(LinkedList<LinkedList<Integer>> productions, int nonterminal) {
+    public Table(LinkedList<List<Integer>> productions, int nonterminal) {
         this(productions);
         this.nonterminal = nonterminal;
     }
@@ -53,8 +53,8 @@ public class Table {
         //int tableNum = 0;
         int startProductionNum = 0;
         //this adds our first rule to the table
-        LinkedList<Integer> rule = productions.get(startProductionNum);
-        LinkedList<LinkedList<Integer>> ruleSq = new LinkedList();
+        List<Integer> rule = productions.get(startProductionNum);
+        LinkedList<List<Integer>> ruleSq = new LinkedList();
         ruleSq.add(rule);
         listomania.add((LinkedList) ruleSq.clone());
 
@@ -67,25 +67,23 @@ public class Table {
     }
 
     private void generateTables(int tableNum) {
-        Integer leadingCharacter; //can be nonterminal or terminal, like cancer
-        LinkedList<LinkedList<Integer>> ruleList = new LinkedList(); //its called characterList but it is Integers...
-
         // linked list index lookups aren't cheap, reuse
         LinkedList<List<Integer>> table = listomania.get(tableNum);
 
         //for each of the rules in X
-        
         for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
-            ruleList = new LinkedList();
+            LinkedList<List<Integer>> ruleList = new LinkedList<List<Integer>>(); //its called characterList but it is Integers...
             List<Integer> rule = table.get(ruleNum);
 
             int charNum = findAfterDot(rule);
 
+            Integer leadingCharacter; //can be nonterminal or terminal, like cancer
             if (charNum < rule.size()) {
                 leadingCharacter = rule.get(charNum);
             } else {
                 leadingCharacter = Integer.MIN_VALUE;
             }
+
             if (leadingCharacter.intValue() == Integer.MIN_VALUE) {
                 //get the first character
                 Integer production = rule.get(0);
@@ -108,7 +106,7 @@ public class Table {
                 //we need to shift all of the rules
                 // that means move the zero over one spot
             }
-            for (LinkedList<Integer> ruleListItem : ruleList) {
+            for (List<Integer> ruleListItem : ruleList) {
                 int afterDotIndex = findAfterDot(ruleListItem);
                 
                 int dotIndex = afterDotIndex - 1;
@@ -159,7 +157,7 @@ public class Table {
      * @return Returns an int corresponding to the table that has matching
      * initial rules, or -1 if a table was not found
      */
-    private int doesTableExist(LinkedList<LinkedList<Integer>> query) {
+    private int doesTableExist(List<List<Integer>> query) {
         //int tableNum = 0;
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
             LinkedList<List<Integer>> table = listomania.get(tableNum);
@@ -225,7 +223,7 @@ public class Table {
                     //TODO: need to add the whole when we see a nonterminal thing here
                     // this is where we generate more rows whenever we see a nonterminal
                     for (int i = 0; i < productions.size(); i++) {
-                        LinkedList<Integer> production = productions.get(i);
+                        List<Integer> production = productions.get(i);
 
                         if (production.get(0).equals(productionPointer)) {
                             //we use a static number because we know there is only 
@@ -235,7 +233,7 @@ public class Table {
                             //we need to check to see if there are any other rules that match the rule we are going to copy over
                             if (checkForRules(production, listomania.get(tableNum)) == false) {
                                 //we want to clone so we do not alter the productions list.
-                                listomania.get(tableNum).add((LinkedList) production.clone());
+                                table.add(new LinkedList<Integer>(production));
                             }
                         }
                     }
