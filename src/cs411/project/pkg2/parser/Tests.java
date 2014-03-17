@@ -13,13 +13,16 @@ import java.util.List;
  */
 public class Tests {
     Grammar g;
+
     Tests(Grammar g) {
         this.g = g;
     }
+
     public void runAllTests() {
         tableTest();
         emptyProductionTest();
         realTest();
+        printGrammar();
     }
     
     private void tableTest() {
@@ -106,6 +109,20 @@ public class Tests {
                     
                 }
                 System.out.println();
+            }
+            System.out.println();
+        }
+    }
+
+    public void printGrammar() {
+        List<List<Integer>> allRules = g.allRules();
+
+        for (List<Integer> rule : allRules) {
+            System.out.print(g.nameOf(rule.get(0)) + " ::= ");
+
+            List<Integer> slice = rule.subList(2, rule.size());
+            for (int id : slice) {
+                System.out.print(g.nameOf(id) + " ");
             }
             System.out.println();
         }
