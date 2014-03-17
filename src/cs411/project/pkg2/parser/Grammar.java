@@ -11,8 +11,6 @@ import java.util.*;
  * @author Jovanni Cutigni
  */
 public class Grammar {
-    public static final int DOT = 0;
-
     private int firstNonterminal;
     private int nextNonterminal;
 
@@ -27,7 +25,7 @@ public class Grammar {
         Scanner lines = new Scanner(file);
         Grammar g = new Grammar();
 
-        g.firstNonterminal = Token.values().length;
+        g.firstNonterminal = Token.length;
         g.nextNonterminal = g.firstNonterminal;
 
         // stuff used before it was declared
@@ -50,7 +48,7 @@ public class Grammar {
 
                 ArrayList<Integer> ruleTemp = new ArrayList<Integer>();
                 ruleTemp.add(id);
-                ruleTemp.add(DOT);
+                ruleTemp.add(Table.DOT);
 
                 if (l.hasNext()) {
                     // read an actual production
@@ -111,8 +109,11 @@ public class Grammar {
         return id;
     }
 
-    public String nameOf(int nonterminalID) {
-        return names.get(nonterminalID);
+    public String nameOf(int id) {
+        if (isTerminal(id)) {
+            return Token.valueOf(id).toString();
+        }
+        return names.get(id);
     }
 
     public boolean isTerminal(int id) {
@@ -145,5 +146,9 @@ public class Grammar {
         ruleList.add(rule);
         // list of all production
         rules.add(rule);
+    }
+
+    public int getFirstNonterminal() {
+        return firstNonterminal;
     }
 }

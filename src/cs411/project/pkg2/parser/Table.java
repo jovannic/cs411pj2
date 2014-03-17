@@ -13,34 +13,22 @@ import java.util.*;
  * @author Michael
  */
 public class Table {
-
-    private int nonterminal = 46;//Token._HASHTAGDOTFUCKITDOTJPG.ordinal();  // this is where our nonterminals will begin
-    private static final Integer DOT = 0; // the value of our dot
+    public static final Integer DOT = 0; // the value of our dot
     private static final Integer AFTER_DOT = 2;
     private List<List<List<Integer>>> listomania;
-    //this should not change, so it should be final
+    // this should not change, so it should be final
     private final List<List<Integer>> productions;
+    // the grammar we're making a table for
+    private final Grammar grammar;
 
-    
     private SLRTable table;
 
-    public Table(List<List<Integer>> productions) {
-        this.productions = productions;
+    public Table(Grammar grammar) {
+        this.grammar = grammar;
+        this.productions = grammar.allRules();
 
         listomania = new LinkedList();
         table = new HashSLRTable();
-    }
-
-    /**
-     * This constructor is for testing purposes
-     *
-     * @param productions a list of productions
-     * @param nonterminal A value for when terminals stop and nonterminals begin
-     * or vise versa
-     */
-    public Table(List<List<Integer>> productions, int nonterminal) {
-        this(productions);
-        this.nonterminal = nonterminal;
     }
 
     /**
@@ -204,7 +192,7 @@ public class Table {
     }
 
     private boolean isTerminal(int number) {
-        return number < nonterminal;
+        return grammar.isTerminal(number);
     }
 
     private boolean isNonTerminal(int number) {

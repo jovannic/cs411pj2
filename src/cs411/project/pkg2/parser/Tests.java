@@ -19,12 +19,13 @@ public class Tests {
     }
 
     public void runAllTests() {
-        tableTest();
-        emptyProductionTest();
-        realTest();
         printGrammar();
+//        tableTest();
+//        emptyProductionTest();
+//        realTest();
     }
     
+/*
     private void tableTest() {
         List<List<Integer>> l = new LinkedList();
         List<Integer> li = new LinkedList();
@@ -96,17 +97,20 @@ public class Tests {
         t.makeAi();
         printList(t.getLists());
     }
-    
+*/
+
     public void printList(List<List<List<Integer>>> l) {
         System.out.println();
         for(int i = 0; i < l.size(); i++) {
-            
+            List<List<Integer>> table = l.get(i);
             System.out.println("Table number: " + i);
+
             for (int j = 0; j < l.get(i).size(); j++) {
-                
-                for(int k = 0; k < l.get(i).get(j).size(); k++) {
-                    System.out.print((g.nameOf(l.get(i).get(j).get(k)) != null ? g.nameOf(l.get(i).get(j).get(k)) : (l.get(i).get(j).get(k))) + " ");
-                    
+                List<Integer> tableItem = table.get(j);
+
+                for (int k = 0; k < l.get(i).get(j).size(); k++) {
+                    String name = (k == Table.DOT) ? "." : g.nameOf(tableItem.get(k));
+                    System.out.print(name + " ");
                 }
                 System.out.println();
             }

@@ -26,12 +26,16 @@ public class CS411Project2Parser {
         // TODO code application logic here
         
         Grammar g = Grammar.load(new File("grammar.txt"));
+
         Tests tests = new Tests(g);
         tests.runAllTests();
-        Table macTable = new Table(g.allRules());
+
+        Table macTable = new Table(g);
         macTable.makeAi();
+
         tests.printList(macTable.getLists());
-        SLRTable table = macTable.getTable(); // TODO: get table from Mac's Table
+
+        SLRTable table = macTable.getTable();
         Parser parser = new Parser(table, 0, g.allRules()); // TODO: figure out where to accept correctly
 
         // Jovanni's lexer
@@ -39,8 +43,8 @@ public class CS411Project2Parser {
         CharStream stream = new BasicFileStream("input2.txt");
 
         // TODO: do above TODOs so this acctually works
-        try{
-        List<Integer> output = parser.parse(new JovanniLexingStream(lexer, stream));
+        try {
+            List<Integer> output = parser.parse(new JovanniLexingStream(lexer, stream));
         } catch(IllegalArgumentException e) {
             System.out.println("Useful Information about the error that just happened");
         }
