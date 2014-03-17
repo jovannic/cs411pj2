@@ -21,7 +21,7 @@ public class Table {
     // the grammar we're making a table for
     private final Grammar grammar;
 
-    private SLRTable table;
+    private HashSLRTable table;
 
     public static Table makeTable(Grammar grammar) {
         return new Table(grammar);

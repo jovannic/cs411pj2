@@ -14,13 +14,11 @@ public class HashSLRTable implements SLRTable {
     private Map<Integer, Map<Integer, Integer>> shift = new HashMap<Integer, Map<Integer, Integer>>();
     private Map<Integer, Map<Integer, Integer>> gotos = new HashMap<Integer, Map<Integer, Integer>>();
 
-    @Override
     public boolean addGoto(int tableNum, int symbol, int gotoTable) {
         add(gotos, tableNum, symbol, gotoTable);
         return true;
     }
 
-    @Override
     public boolean addShift(int tableNum, int symbol, int gotoTable) {
         int s;
         if (getReduce(tableNum) != -1) {
@@ -35,7 +33,6 @@ public class HashSLRTable implements SLRTable {
         return true;
     }
 
-    @Override
     public boolean addReduce(int tableNum, int symbol, int count) {
         int r;
         if ((r = getReduce(tableNum)) != -1) {
