@@ -44,7 +44,7 @@ public class Parser {
             int shift = table.getShift(state, token);
             if (shift != -1) {
                 // if there's a shift action, goto...
-                stack.push(table.getGoto(state, token));
+                stack.push(shift);
                 // ... and pull the next token and continue
                 token = lexer.next();
             } else {
