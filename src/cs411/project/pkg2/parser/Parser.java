@@ -37,7 +37,7 @@ public class Parser {
 
         // the first/next lexer token
         int token = lexer.next();
-        System.out.print(nameOrID(token));
+        System.out.print(grammar.nameOrIdOf(token));
 
         // while not eof, do parser action
         while (token != -1) {
@@ -52,7 +52,7 @@ public class Parser {
 
                 // ... and pull the next token and continue
                 token = lexer.next();
-                System.out.print(nameOrID(token));
+                System.out.print(grammar.nameOrIdOf(token));
             } else {
                 // if no shift...
                 int reduce = table.getReduce(state);
@@ -73,13 +73,13 @@ public class Parser {
                     int nt = productions.get(table.getReduce(state)).get(0);
                     int gotoState = table.getGoto(state, nt);
                     if (gotoState == -1) {
-                        throw new IllegalArgumentException("No goto defined for table " + state + " and nonterminal " + nameOrID(nt));
+                        throw new IllegalArgumentException("No goto defined for table " + state + " and nonterminal " + grammar.nameOrIdOf(nt));
                     }
 
                     stack.push(gotoState);
                 } else {
                     // no action defined, error
-                    throw new IllegalArgumentException("No action defined for table " + state + " and token" + nameOrID(token));
+                    throw new IllegalArgumentException("No action defined for table " + state + " and token" + grammar.nameOrIdOf(token));
                 }
             }
         }
@@ -93,12 +93,5 @@ public class Parser {
         }
 
         return null;
-    }
-
-    private String nameOrID(int id) {
-        String name = grammar.nameOf(id);
-        if (name == null)
-            name = Integer.toString(id);
-        return name;
     }
 }
