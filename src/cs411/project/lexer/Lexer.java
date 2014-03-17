@@ -204,7 +204,8 @@ public class Lexer {
         addTo(keywords, Token._readln);
         addTo(keywords, Token._return);
         addTo(keywords, Token._string);
-        addTo(keywords, Token._boolconstant);
+        addTo(keywords, Token._boolconstant, "true");
+        addTo(keywords, Token._boolconstant, "false");
         addTo(keywords, Token._void);
         addTo(keywords, Token._while);
 
@@ -235,6 +236,10 @@ public class Lexer {
 
     private void addTo(SymbolMap<Token> map, Token t) {
         map.add(t.stringValue(), t);
+    }
+
+    private void addTo(SymbolMap<Token> map, Token t, String string) {
+        map.add(string, t);
     }
 
     // ignores until eof or end of match found. assumes str.length() > 0
