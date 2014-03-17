@@ -74,7 +74,7 @@ public class Parser {
                     stack.push(gotoState);
                 } else {
                     // no action defined, error
-                    throw new IllegalArgumentException("No action defined for token");
+                    throw new IllegalArgumentException("No action defined for table " + state + " and token" + nameOrID(token));
                 }
             }
         }
