@@ -1,3 +1,5 @@
 *.class
 /.idea
 /*.iml
+/nbproject/private/
+/build/

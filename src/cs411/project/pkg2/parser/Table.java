@@ -86,7 +86,7 @@ public class Table {
             if (leadingCharacter.intValue() == Integer.MIN_VALUE) {
                 //get the first character
                 Integer production = rule.get(0);
-                int right = charNum - (rule.size() - 1); // TODO: acctual value
+                int right = (rule.size() - 2); // TODO: acctual value
                 addReduce(tableNum, production, right);
                 return;
             }
