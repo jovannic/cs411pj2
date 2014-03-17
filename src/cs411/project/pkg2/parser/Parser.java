@@ -56,26 +56,33 @@ public class Parser {
                     // ...and there is a reduce, reduce
                     output.add(reduce);
 
-                    System.out.print("r" + reduce + " ");
+                    // TODO: for now getReduce returns left, should return production rule
+                    int left = reduce;
+
+//                    System.out.print("r" + reduce + " ");
+                    System.out.print("rto" + grammar.nameOrIdOf(left) + " ");
 
                     // pop the correct number
                     int reduceCount = table.getReduceCount(state);
                     for (int i = 0; i < reduceCount; i++)
                         stack.pop();
 
-                    // for now current state, goto for that non-terminal
+                    // for new current state, goto for that non-terminal
                     state = stack.peek();
 
-                    int nt = productions.get(table.getReduce(state)).get(0);
+//                    int nt = grammar.nonterminalForRule(table.getReduce(state));
+                    int nt = table.getReduce(state);
                     int gotoState = table.getGoto(state, nt);
                     if (gotoState == -1) {
-                        throw new IllegalArgumentException("No goto defined for table " + state + " and nonterminal " + grammar.nameOrIdOf(nt));
+                        throw new IllegalArgumentException("No goto defined for table " + state
+                                + " and nonterminal " + grammar.nameOrIdOf(nt));
                     }
 
                     stack.push(gotoState);
                 } else {
                     // no action defined, error
-                    throw new IllegalArgumentException("No action defined for table " + state + " and token" + grammar.nameOrIdOf(token));
+                    throw new IllegalArgumentException("No action defined for table " + state
+                            + " and token " + grammar.nameOrIdOf(token));
                 }
             }
         }
