@@ -14,58 +14,58 @@ public class HashSLRTable implements LRTable {
     private Map<Integer, Map<Integer, Integer>> shift = new HashMap<Integer, Map<Integer, Integer>>();
     private Map<Integer, Map<Integer, Integer>> gotos = new HashMap<Integer, Map<Integer, Integer>>();
 
-    public boolean addGoto(int tableNum, int symbol, int gotoTable) {
-        add(gotos, tableNum, symbol, gotoTable);
+    public boolean addGoto(int tableNum, int nonterminal, int gotoTable) {
+        add(gotos, tableNum, nonterminal, gotoTable);
         return true;
     }
 
-    public boolean addShift(int tableNum, int symbol, int gotoTable) {
+    public boolean addShift(int tableNum, int token, int gotoTable) {
         int s;
-        if (getReduce(tableNum) != -1) {
+        if (getReduce(tableNum, token) != -1) {
             System.out.println("S/R @ " + tableNum);
-        } else if ((s = getShift(tableNum, symbol)) != -1) {
+        } else if ((s = getShift(tableNum, token)) != -1) {
             System.out.println("S/S @ " + tableNum
                     + " where " + s + (s == gotoTable ? " (same)" : ""));
             return false;
         }
 
-        add(shift, tableNum, symbol, gotoTable);
+        add(shift, tableNum, token, gotoTable);
         return true;
     }
 
-    public boolean addReduce(int tableNum, int symbol, int count) {
+    public boolean addReduce(int tableNum, int ruleNum, int count) {
         int r;
-        if ((r = getReduce(tableNum)) != -1) {
+        if ((r = getReduce(tableNum, -1)) != -1) {
             System.out.println("R/R @ " + tableNum
-                    + " where " + r + (r == symbol ? " (same)" : ""));
+                    + " where " + r + (r == ruleNum ? " (same)" : ""));
             return false;
         } else if (shift.containsKey(tableNum)) {
             System.out.println("S/R @ " + tableNum);
         }
 
-        reduce.put(tableNum, symbol);
+        reduce.put(tableNum, ruleNum);
         reduceCount.put(tableNum, count);
         return true;
     }
 
     @Override
-    public int getGoto(int tableNum, int symbol) {
-        return get(gotos, tableNum, symbol);
+    public int getGoto(int tableNum, int nonterminal) {
+        return get(gotos, tableNum, nonterminal);
     }
 
     @Override
-    public int getShift(int tableNum, int symbol) {
-        return get(shift, tableNum, symbol);
+    public int getShift(int tableNum, int token) {
+        return get(shift, tableNum, token);
     }
 
     @Override
-    public int getReduce(int tableNum) {
+    public int getReduce(int tableNum, int token) {
         Integer r = reduce.get(tableNum);
         return r != null ? r : -1;
     }
 
     @Override
-    public int getReduceCount(int tableNum) {
+    public int getReduceCount(int tableNum, int token) {
         return reduceCount.get(tableNum);
     }
 

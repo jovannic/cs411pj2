@@ -5,8 +5,8 @@ package cs411.project.pkg2.parser;
  * @author Jovanni Cutigni
  */
 public interface LRTable {
-    public int getGoto(int tableNum, int symbol);
-    public int getShift(int tableNum, int symbol);
-    public int getReduce(int tableNum);
-    public int getReduceCount(int tableNum);
+    public int getGoto(int tableNum, int nonterminal);
+    public int getShift(int tableNum, int token);
+    public int getReduce(int tableNum, int token);
+    public int getReduceCount(int tableNum, int token);
 }

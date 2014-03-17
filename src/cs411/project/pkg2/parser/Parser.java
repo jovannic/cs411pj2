@@ -51,7 +51,7 @@ public class Parser {
                 System.out.print(grammar.nameOrIdOf(token) + ": ");
             } else {
                 // if no shift...
-                int reduce = table.getReduce(state);
+                int reduce = table.getReduce(state, token);
                 if (reduce != -1) {
                     // ...and there is a reduce, reduce
                     output.add(reduce);
@@ -61,7 +61,7 @@ public class Parser {
                     System.out.print("r" + reduce + "[" + grammar.nameOrIdOf(left) + "] ");
 
                     // pop the correct number
-                    int reduceCount = table.getReduceCount(state);
+                    int reduceCount = table.getReduceCount(state, token);
                     for (int i = 0; i < reduceCount; i++)
                         stack.pop();
 
@@ -88,7 +88,7 @@ public class Parser {
 
         // end of file, final step:
         int state = stack.peek();
-        int reduce = table.getReduce(state);
+        int reduce = table.getReduce(state, token);
         int left = grammar.nonterminalForRule(reduce);
         if (left == grammar.intialNonterminal()) {
             //accept
