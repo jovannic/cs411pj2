@@ -22,35 +22,40 @@ TypeOrVoidID ::= _void _id
 VariableDecl ::= TypeID _semicolon
 
 FunctionDecl ::= TypeOrVoidID _leftparen Formals _rightparen StmtBlock
+FunctionDecl ::= TypeOrVoidID _leftparen _rightparen StmtBlock
 
-Formals ::=
 Formals ::= VariableList
 VariableList ::= TypeID
 VariableList ::= TypeID _comma VariableList
 
 ClassDecl ::= _class _id OptionalExtends OptionalImplements _leftbrace OptionalFields _rightbrace
-OptionalExtends ::=
+ClassDecl ::= _class _id OptionalImplements _leftbrace OptionalFields _rightbrace
+ClassDecl ::= _class _id _leftbrace OptionalFields _rightbrace
+ClassDecl ::= _class _id OptionalImplements _leftbrace OptionalFields _rightbrace
+ClassDecl ::= _class _id OptionalExtends OptionalImplements _leftbrace _rightbrace
+ClassDecl ::= _class _id OptionalImplements _leftbrace _rightbrace
+ClassDecl ::= _class _id _leftbrace _rightbrace
+ClassDecl ::= _class _id OptionalImplements _leftbrace _rightbrace
 OptionalExtends ::= _extends _id
-OptionalImplements ::=
 OptionalImplements ::= _implements IDList
 IDList ::= _id
 IDList ::= _id _comma IDList
-OptionalFields ::= 
 OptionalFields ::= Field OptionalFields
 
 Field ::= VariableDecl
 Field ::= FunctionDecl
 
 InterfaceDecl ::= _interface _id _leftbrace OptionalPrototypes _rightbrace
-OptionalPrototypes ::= 
+InterfaceDecl ::= _interface _id _leftbrace _rightbrace
 OptionalPrototypes ::= Prototype OptionalPrototypes
 
 Prototype ::= TypeOrVoidID _leftparen Formals _rightparen _semicolon
 
 StmtBlock ::= _leftbrace OptionalVariableDecls OptionalStmts _rightbrace
-OptionalVariableDecls ::=
+StmtBlock ::= _leftbrace OptionalStmts _rightbrace
+StmtBlock ::= _leftbrace OptionalVariableDecls _rightbrace
+StmtBlock ::= _leftbrace _rightbrace
 OptionalVariableDecls ::= VariableDecl OptionalVariableDecls
-OptionalStmts ::= 
 OptionalStmts ::= Stmt OptionalStmts
 
 Stmt ::= _semicolon
@@ -64,16 +69,20 @@ Stmt ::= PrintStmt
 Stmt ::= StmtBlock
 
 IfStmt ::= _if _leftparen Expr _rightparen Stmt OptionalElse
-OptionalElse ::= 
+IfStmt ::= _if _leftparen Expr _rightparen Stmt
 OptionalElse ::= _else Stmt
 
 WhileStmt ::= _while _leftparen Expr _rightparen Stmt
 
 ForStmt ::= _for _leftparen OptionalExpr _semicolon Expr _semicolon OptionalExpr _rightparen Stmt
+ForStmt ::= _for _leftparen OptionalExpr _semicolon Expr _semicolon _rightparen Stmt
+ForStmt ::= _for _leftparen _semicolon Expr _semicolon OptionalExpr _rightparen Stmt
+ForStmt ::= _for _leftparen _semicolon Expr _semicolon _rightparen Stmt
 
 BreakStmt ::= _break _semicolon
 
 ReturnStmt ::= _return OptionalExpr _semicolon
+ReturnStmt ::= _return _semicolon
 
 PrintStmt ::= _println _leftparen ExprList _rightparen _semicolon
 
@@ -102,7 +111,6 @@ Expr ::= _newarray _leftparen _intconstant _comma Type _rightparen
 ExprList ::= Expr
 ExprList ::= Expr _comma ExprList
 
-OptionalExpr ::=
 OptionalExpr ::= Expr
 
 Lvalue ::= _id
@@ -110,9 +118,10 @@ Lvalue ::= Expr _leftbracket Expr _rightbracket
 Lvalue ::= Expr _period _id
 
 Call ::= _id _leftparen Actuals _rightparen
+Call ::= _id _leftparen _rightparen
 Call ::= _id _period _id _leftparen Actuals _rightparen
+Call ::= _id _period _id _leftparen _rightparen
 
-Actuals ::=
 Actuals ::= ExprList
 
 Constant ::= _intconstant

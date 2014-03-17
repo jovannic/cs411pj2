@@ -162,7 +162,7 @@ public class Table {
             List<List<Integer>> table = listomania.get(tableNum);
 
             boolean flag = true;
-            for (int i = 0; i < query.size(); i++) {
+            for (int i = 0; i < query.size() && i < table.size() ; i++) {
                 List<Integer> queryItem = query.get(i);
                 List<Integer> tableItem = table.get(i);
 
