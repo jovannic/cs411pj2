@@ -86,7 +86,7 @@ public class Table {
             if (leadingCharacter.intValue() == Integer.MIN_VALUE) {
                 //get the first character
                 Integer production = findProduction(new LinkedList(rule));
-                int right = (rule.size() - 2); // TODO: acctual value
+                int right = (rule.size() - 2);
                 addReduce(tableNum, production, right);
                 continue;
             }
