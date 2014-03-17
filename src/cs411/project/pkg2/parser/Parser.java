@@ -12,13 +12,15 @@ import java.util.List;
 public class Parser {
     private final SLRTable table;
     private final int finalReduceValue;
+    private final Grammar grammar;
     private final List<List<Integer>> productions;
 
-    public Parser(SLRTable table, int finalReduce, List<List<Integer>> productions) {
+    public Parser(SLRTable table, Grammar grammar, int finalReduce) {
         // the table is the identity of the parser
         this.table = table;
         this.finalReduceValue = finalReduce;
-        this.productions = productions;
+        this.grammar = grammar;
+        this.productions = grammar.allRules();
     }
 
     /**
@@ -63,8 +65,13 @@ public class Parser {
                     // for now current state, goto for that non-terminal
                     state = stack.peek();
 
+                    int nt = productions.get(table.getReduce(state)).get(0);
+                    int gotoState = table.getGoto(state, nt);
+                    if (gotoState == -1) {
+                        throw new IllegalArgumentException("No goto defined for table " + state + " and nonterminal " + nameOrID(nt));
+                    }
 
-                    stack.push(table.getGoto(state, productions.get(table.getReduce(state)).get(0)));
+                    stack.push(gotoState);
                 } else {
                     // no action defined, error
                     throw new IllegalArgumentException("No action defined for token");
@@ -81,5 +88,12 @@ public class Parser {
         }
 
         return null;
+    }
+
+    private String nameOrID(int id) {
+        String name = grammar.nameOf(id);
+        if (name == null)
+            name = Integer.toString(id);
+        return name;
     }
 }

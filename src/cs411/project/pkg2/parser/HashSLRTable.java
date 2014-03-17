@@ -22,8 +22,10 @@ public class HashSLRTable implements SLRTable {
 
     @Override
     public boolean addShift(int tableNum, int symbol, int gotoTable) {
-        if (reduce.containsKey(tableNum))
+        if (reduce.containsKey(tableNum)) {
             System.out.println("Shift/reduce conflict at " + tableNum);
+            return false;
+        }
 
         add(shift, tableNum, symbol, gotoTable);
         return true;
@@ -31,10 +33,13 @@ public class HashSLRTable implements SLRTable {
 
     @Override
     public boolean addReduce(int tableNum, int symbol, int count) {
-        if (reduce.containsKey(tableNum))
+        if (reduce.containsKey(tableNum)) {
             System.out.println("Reduce reduce conflict at " + tableNum);
-        else if (shift.containsKey(tableNum))
+            return false;
+        } else if (shift.containsKey(tableNum)) {
             System.out.println("Shift/reduce conflict at " + tableNum);
+            return false;
+        }
 
         reduce.put(tableNum, symbol);
         reduceCount.put(tableNum, count);
