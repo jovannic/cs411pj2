@@ -10,10 +10,10 @@ import java.util.List;
  * @author Jovanni Cutigni
  */
 public class Parser {
-    private final SLRTable table;
+    private final LRTable table;
     private final Grammar grammar;
 
-    public Parser(SLRTable table, Grammar grammar) {
+    public Parser(LRTable table, Grammar grammar) {
         // the table is the identity of the parser
         this.table = table;
         this.grammar = grammar;

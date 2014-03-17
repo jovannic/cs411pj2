@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * HashMap based reference implementation of the SLRTable interface.
+ * HashMap based reference implementation of the LRTable interface.
  * <p>inefficient, not compact, but easy to implement, hard to screw up.</p>
  * @author Jovanni Cutigni
  */
-public class HashSLRTable implements SLRTable {
+public class HashSLRTable implements LRTable {
     private Map<Integer, Integer> reduce = new HashMap<Integer, Integer>();
     private Map<Integer, Integer> reduceCount = new HashMap<Integer, Integer>();
     private Map<Integer, Map<Integer, Integer>> shift = new HashMap<Integer, Map<Integer, Integer>>();

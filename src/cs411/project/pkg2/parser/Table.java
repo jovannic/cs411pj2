@@ -45,7 +45,7 @@ public class Table {
     public List<List<List<Integer>>> getLists() {
         return listomania;
     }
-    public SLRTable getTable() {
+    public LRTable getTable() {
         return table;
     }
 
