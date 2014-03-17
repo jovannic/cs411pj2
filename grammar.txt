@@ -7,9 +7,12 @@ Decl ::= FunctionDecl
 Decl ::= ClassDecl
 Decl ::= InterfaceDecl
 
-VariableDecl ::= Variable _semicolon
+TypedID ::= Type _id
 
-Variable ::= Type _id
+TypedIDOrVoid ::= TypedID
+TypedIDOrVoid ::= _void _id
+
+VariableDecl ::= TypedID _semicolon
 
 Type ::= _int
 Type ::= _double
@@ -18,13 +21,12 @@ Type ::= _string
 Type ::= Type _leftbracket _rightbracket
 Type ::= _id
 
-FunctionDecl ::= Type _id _leftparen Formals _rightparen StmtBlock
-FunctionDecl ::= _void _id _leftparen Formals _rightparen StmtBlock
+FunctionDecl ::= TypedIDOrVoid _leftparen Formals _rightparen StmtBlock
 
 Formals ::=
 Formals ::= VariableList
-VariableList ::= Variable
-VariableList ::= Variable _comma VariableList
+VariableList ::= TypedID
+VariableList ::= TypedID _comma VariableList
 
 ClassDecl ::= _class _id OptionalExtends OptionalImplements _leftbrace OptionalFields _rightbrace
 OptionalExtends ::=
@@ -43,8 +45,7 @@ InterfaceDecl ::= _interface _id _leftbrace OptionalPrototypes _rightbrace
 OptionalPrototypes ::= 
 OptionalPrototypes ::= Prototype OptionalPrototypes
 
-Prototype ::= Type _id _leftparen Formals _rightparen _semicolon
-Prototype ::= _void _id _leftparen Formals _rightparen _semicolon
+Prototype ::= TypedIDOrVoid _leftparen Formals _rightparen _semicolon
 
 StmtBlock ::= _leftbrace OptionalVariableDecls OptionalStmts _rightbrace
 OptionalVariableDecls ::=
