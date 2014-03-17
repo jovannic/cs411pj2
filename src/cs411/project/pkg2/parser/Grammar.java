@@ -83,6 +83,7 @@ public class Grammar {
                 }
 
                 addRuleTo(id, ruleTemp);
+                rules.add(ruleTemp);
             }
         }
         lines.close();
