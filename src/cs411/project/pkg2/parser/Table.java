@@ -85,7 +85,7 @@ public class Table {
 
             if (leadingCharacter.intValue() == Integer.MIN_VALUE) {
                 //get the first character
-                Integer production = rule.get(0);
+                Integer production = findProduction(new LinkedList(rule));
                 int right = (rule.size() - 2); // TODO: acctual value
                 addReduce(tableNum, production, right);
                 return;
@@ -283,5 +283,27 @@ public class Table {
     private void addReduce(int tableNum, Integer production, int count) {
         System.out.println("Reduce:  " + tableNum + "\t" + production + "\t" + count);
         table.addReduce(tableNum, production, count);
+    }
+
+    private Integer findProduction(LinkedList<Integer> prod) {
+        prod.remove(prod.size() - 1);
+        prod.add(1, DOT);
+        
+        for(int i = 0; i < productions.size(); i++) {
+            if(productions.get(i).size() == prod.size()) {
+                for(int charNum = 0; charNum < prod.size(); charNum++) {
+                    if(productions.get(i).get(charNum).intValue() != prod.get(charNum).intValue()) {
+                        break;
+                    } else if (charNum == prod.size() - 1) {
+                        //if all of the characters match up to this point, and we are at the last character
+                        // and those characters match
+                        // then this is the right production
+                        return i;
+                    }
+                }
+            }
+        }
+        System.out.println("Can't Find production");
+        return null; // should never return null
     }
 }
