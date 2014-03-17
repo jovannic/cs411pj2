@@ -56,11 +56,9 @@ public class Parser {
                     // ...and there is a reduce, reduce
                     output.add(reduce);
 
-                    // TODO: for now getReduce returns left, should return production rule
-                    int left = reduce;
+                    int left = grammar.nonterminalForRule(reduce);
 
-//                    System.out.print("r" + reduce + " ");
-                    System.out.print("rto" + grammar.nameOrIdOf(left) + " ");
+                    System.out.print("r" + reduce + ":" + grammar.nameOrIdOf(left) + " ");
 
                     // pop the correct number
                     int reduceCount = table.getReduceCount(state);
@@ -70,8 +68,7 @@ public class Parser {
                     // for new current state, goto for that non-terminal
                     state = stack.peek();
 
-//                    int nt = grammar.nonterminalForRule(table.getReduce(state));
-                    int nt = table.getReduce(state);
+                    int nt = grammar.nonterminalForRule(table.getReduce(state));
                     int gotoState = table.getGoto(state, nt);
                     if (gotoState == -1) {
                         throw new IllegalArgumentException("No goto defined for table " + state
@@ -90,7 +87,7 @@ public class Parser {
         // end of file, final step:
         int state = stack.peek();
         int reduce = table.getReduce(state);
-        int left = reduce; // TODO
+        int left = grammar.nonterminalForRule(reduce);
         if (left == grammar.intialNonterminal()) {
             //accept
             return output;
