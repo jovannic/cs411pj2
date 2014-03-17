@@ -109,7 +109,7 @@ public class Tests {
                 List<Integer> tableItem = table.get(j);
 
                 for (int k = 0; k < l.get(i).get(j).size(); k++) {
-                    String name = (k == Table.DOT) ? "." : g.nameOf(tableItem.get(k));
+                    String name = (k == Table.DOT.intValue()) ? "." : g.nameOf(tableItem.get(k));
                     System.out.print(name + " ");
                 }
                 System.out.println();

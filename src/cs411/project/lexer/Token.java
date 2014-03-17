@@ -13,7 +13,7 @@ public enum Token {
     _greater(">"), _greaterequal(">="), _equal("=="), _notequal("!="),
     _and("&&"), _or("||"), _not("!"), _assignop("="),
     _semicolon(";"), _comma(","), _period("."), _leftparen("("),
-    _rightparen(">"), _leftbracket("["), _rightbracket("]"), _leftbrace("{"),
+    _rightparen(")"), _leftbracket("["), _rightbracket("]"), _leftbrace("{"),
     _rightbrace("}"), _boolconstant(null), _intconstant(null), _doubleconstant(null),
     _stringconstant(null), _id(null), _HASHTAGDOTFUCKITDOTJPG(null);
 
