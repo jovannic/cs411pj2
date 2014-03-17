@@ -24,10 +24,12 @@ public class CS411Project2Parser {
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        
-        Grammar g = Grammar.load(new File("grammar.txt"));
 
         Tests.runAllTests();
+
+        Grammar g = Grammar.load(new File("grammar.txt"));
+
+        Tests.printGrammar(g);
 
         Table macTable = new Table(g);
         macTable.makeAi();
