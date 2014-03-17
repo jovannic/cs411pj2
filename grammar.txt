@@ -23,35 +23,35 @@ VariableDecl ::= TypeID _semicolon
 
 FunctionDecl ::= TypeOrVoidID _leftparen Formals _rightparen StmtBlock
 
-Formals ::=
 Formals ::= VariableList
+Formals ::=
 VariableList ::= TypeID
 VariableList ::= TypeID _comma VariableList
 
 ClassDecl ::= _class _id OptionalExtends OptionalImplements _leftbrace OptionalFields _rightbrace
-OptionalExtends ::=
 OptionalExtends ::= _extends _id
-OptionalImplements ::=
+OptionalExtends ::=
 OptionalImplements ::= _implements IDList
+OptionalImplements ::=
 IDList ::= _id
 IDList ::= _id _comma IDList
-OptionalFields ::= 
 OptionalFields ::= Field OptionalFields
+OptionalFields ::=
 
 Field ::= VariableDecl
 Field ::= FunctionDecl
 
 InterfaceDecl ::= _interface _id _leftbrace OptionalPrototypes _rightbrace
-OptionalPrototypes ::= 
 OptionalPrototypes ::= Prototype OptionalPrototypes
+OptionalPrototypes ::=
 
 Prototype ::= TypeOrVoidID _leftparen Formals _rightparen _semicolon
 
 StmtBlock ::= _leftbrace OptionalVariableDecls OptionalStmts _rightbrace
-OptionalVariableDecls ::=
 OptionalVariableDecls ::= VariableDecl OptionalVariableDecls
-OptionalStmts ::= 
+OptionalVariableDecls ::=
 OptionalStmts ::= Stmt OptionalStmts
+OptionalStmts ::=
 
 Stmt ::= _semicolon
 Stmt ::= Expr _semicolon
@@ -64,8 +64,8 @@ Stmt ::= PrintStmt
 Stmt ::= StmtBlock
 
 IfStmt ::= _if _leftparen Expr _rightparen Stmt OptionalElse
-OptionalElse ::= 
 OptionalElse ::= _else Stmt
+OptionalElse ::=
 
 WhileStmt ::= _while _leftparen Expr _rightparen Stmt
 
@@ -102,8 +102,8 @@ Expr ::= _newarray _leftparen _intconstant _comma Type _rightparen
 ExprList ::= Expr
 ExprList ::= Expr _comma ExprList
 
-OptionalExpr ::=
 OptionalExpr ::= Expr
+OptionalExpr ::=
 
 Lvalue ::= _id
 Lvalue ::= Expr _leftbracket Expr _rightbracket
@@ -112,8 +112,8 @@ Lvalue ::= Expr _period _id
 Call ::= _id _leftparen Actuals _rightparen
 Call ::= _id _period _id _leftparen Actuals _rightparen
 
-Actuals ::=
 Actuals ::= ExprList
+Actuals ::=
 
 Constant ::= _intconstant
 Constant ::= _doubleconstant
