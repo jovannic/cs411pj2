@@ -34,7 +34,7 @@ public class CS411Project2Parser {
         Tests.printList(macTable.getLists(), g);
 
         SLRTable lrTable = macTable.getTable();
-        Parser parser = new Parser(lrTable, 0, g.allRules()); // TODO: figure out where to accept correctly
+        Parser parser = new Parser(lrTable, g, 0); // TODO: figure out where to accept correctly
 
         // Jovanni's lexer
         Lexer lexer = new Lexer();
