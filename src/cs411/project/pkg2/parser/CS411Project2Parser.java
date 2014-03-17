@@ -27,13 +27,12 @@ public class CS411Project2Parser {
         
         Grammar g = Grammar.load(new File("grammar.txt"));
 
-        Tests tests = new Tests(g);
-        tests.runAllTests();
+        Tests.runAllTests();
 
         Table macTable = new Table(g);
         macTable.makeAi();
 
-        tests.printList(macTable.getLists());
+        Tests.printList(macTable.getLists(), g);
 
         SLRTable table = macTable.getTable();
         Parser parser = new Parser(table, 0, g.allRules()); // TODO: figure out where to accept correctly
