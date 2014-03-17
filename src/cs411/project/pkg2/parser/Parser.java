@@ -68,11 +68,11 @@ public class Parser {
                     // for new current state, goto for that non-terminal
                     state = stack.peek();
 
-                    int nt = grammar.nonterminalForRule(table.getReduce(state));
-                    int gotoState = table.getGoto(state, nt);
+                    //int nt = grammar.nonterminalForRule(table.getReduce(state));
+                    int gotoState = table.getGoto(state, left);
                     if (gotoState == -1) {
                         throw new IllegalArgumentException("No goto defined for table " + state
-                                + " and nonterminal " + grammar.nameOrIdOf(nt));
+                                + " and nonterminal " + grammar.nameOrIdOf(left));
                     }
 
                     stack.push(gotoState);
