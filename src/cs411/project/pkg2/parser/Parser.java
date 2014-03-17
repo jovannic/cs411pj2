@@ -58,7 +58,7 @@ public class Parser {
 
                     int left = grammar.nonterminalForRule(reduce);
 
-                    System.out.print("r" + reduce + ":" + grammar.nameOrIdOf(left) + " ");
+                    System.out.print("r" + reduce + "[" + grammar.nameOrIdOf(left) + "] ");
 
                     // pop the correct number
                     int reduceCount = table.getReduceCount(state);
@@ -71,15 +71,15 @@ public class Parser {
                     //int nt = grammar.nonterminalForRule(table.getReduce(state));
                     int gotoState = table.getGoto(state, left);
                     if (gotoState == -1) {
-                        throw new IllegalArgumentException("No goto defined for table " + state
-                                + " and nonterminal " + grammar.nameOrIdOf(left));
+                        throw new IllegalArgumentException("No goto defined in table " + state
+                                + " for " + grammar.nameOrIdOf(left));
                     }
 
                     stack.push(gotoState);
                 } else {
                     // no action defined, error
-                    throw new IllegalArgumentException("No action defined for table " + state
-                            + " and token " + grammar.nameOrIdOf(token));
+                    throw new IllegalArgumentException("No action defined in table " + state
+                            + " for " + grammar.nameOrIdOf(token));
                 }
             }
         }
