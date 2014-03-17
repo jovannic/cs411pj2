@@ -64,16 +64,13 @@ public class HashSLRTable implements SLRTable {
 
     private int get(Map<Integer, Map<Integer, Integer>> map, int tableID, int symbol) {
         Map<Integer, Integer> table = map.get(tableID);
-        if(table != null) {
-            if (table.get(symbol) != null) {
-                return table.get(symbol);
-            } else {
-                return -1;
+        if (table != null) {
+            Integer value = table.get(symbol);
+            if (value != null) {
+                return value;
             }
-        } else {
-            return -1;
         }
-        //return table != null ? table.get(symbol) : -1;
+        return -1;
     }
 
     private void add(Map<Integer, Map<Integer, Integer>> map, int tableID, int symbol, int gotoTable) {
