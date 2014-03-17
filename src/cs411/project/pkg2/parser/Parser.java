@@ -37,7 +37,7 @@ public class Parser {
 
         // the first/next lexer token
         int token = lexer.next();
-        System.out.print(grammar.nameOrIdOf(token));
+        System.out.print(grammar.nameOrIdOf(token) + ": ");
 
         // while not eof, do parser action
         while (token != -1) {
@@ -48,11 +48,11 @@ public class Parser {
             if (shift != -1) {
                 // if there's a shift action, goto...
                 stack.push(shift);
-                System.out.println(" shift");
+                System.out.println("shift ");
 
                 // ... and pull the next token and continue
                 token = lexer.next();
-                System.out.print(grammar.nameOrIdOf(token));
+                System.out.print(grammar.nameOrIdOf(token) + ": ");
             } else {
                 // if no shift...
                 int reduce = table.getReduce(state);
@@ -60,7 +60,7 @@ public class Parser {
                     // ...and there is a reduce, reduce
                     output.add(reduce);
 
-                    System.out.print(" r" + reduce);
+                    System.out.print("r" + reduce + " ");
 
                     // pop the correct number
                     int reduceCount = table.getReduceCount(state);

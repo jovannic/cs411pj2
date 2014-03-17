@@ -29,6 +29,8 @@ public class CS411Project2Parser {
 
         Grammar g = Grammar.load(new File("grammar.txt"));
 
+        Tests.printGrammar(g);
+
         Table macTable = Table.makeTable(g);
 
         Tests.printList(macTable.getLists(), g);
