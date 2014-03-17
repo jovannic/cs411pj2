@@ -28,6 +28,9 @@ public class JovanniLexingStream implements LexingStream {
         } catch (IOException e) {
             e.printStackTrace();
             return -1;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }
