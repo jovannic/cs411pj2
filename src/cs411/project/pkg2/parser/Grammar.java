@@ -96,6 +96,7 @@ public class Grammar {
     }
 
     public Grammar(List<List<Integer>> rules, int firstNonterminal) {
+        usesToken = false;
         this.firstNonterminal = firstNonterminal;
         nextNonterminal = firstNonterminal;
 
