@@ -129,6 +129,14 @@ public class Grammar {
         return id;
     }
 
+    public int intialNonterminal() {
+        return firstNonterminal;
+    }
+
+    public int nonterminalForRule(int ruleNum) {
+        return rules.get(ruleNum).get(0);
+    }
+
     /**
      * @return id for the name, or -1
      */

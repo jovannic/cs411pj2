@@ -11,16 +11,12 @@ import java.util.List;
  */
 public class Parser {
     private final SLRTable table;
-    private final int finalReduceValue;
     private final Grammar grammar;
-    private final List<List<Integer>> productions;
 
-    public Parser(SLRTable table, Grammar grammar, int finalReduce) {
+    public Parser(SLRTable table, Grammar grammar) {
         // the table is the identity of the parser
         this.table = table;
-        this.finalReduceValue = finalReduce;
         this.grammar = grammar;
-        this.productions = grammar.allRules();
     }
 
     /**
@@ -87,7 +83,8 @@ public class Parser {
         // end of file, final step:
         int state = stack.peek();
         int reduce = table.getReduce(state);
-        if (reduce == finalReduceValue) {
+        int left = reduce; // TODO
+        if (left == grammar.intialNonterminal()) {
             //accept
             return output;
         }
