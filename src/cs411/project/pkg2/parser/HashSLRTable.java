@@ -48,7 +48,7 @@ public class HashSLRTable implements SLRTable {
 
     @Override
     public int getShift(int tableNum, int symbol) {
-        return get(gotos, tableNum, symbol);
+        return get(shift, tableNum, symbol);
     }
 
     @Override
