@@ -17,6 +17,9 @@ public enum Token {
     _rightbrace("}"), _boolconstant(null), _intconstant(null), _doubleconstant(null),
     _stringconstant(null), _id(null), _HASHTAGDOTFUCKITDOTJPG(null);
 
+    private final static Token[] fromOrdinal = Token.values();
+    public static final int length = fromOrdinal.length;
+
     private final String value;
 
     private Token(String value) {
@@ -25,5 +28,9 @@ public enum Token {
 
     public String stringValue() {
         return value;
+    }
+
+    public static Token valueOf(int ordinal) {
+        return fromOrdinal[ordinal];
     }
 }
