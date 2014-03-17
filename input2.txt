@@ -1,10 +1,4 @@
-void main() {
-	int d;
-	int e;
-	a = 5;
-	b = 6;
-	c = 7;
-	d = 8;
-	e = 8 + 1;
-	a = b + c;
+void main(int args) {
+	int a;
+	a = 3;
 }

@@ -48,8 +48,9 @@ OptionalPrototypes ::=
 Prototype ::= TypeOrVoidID _leftparen Formals _rightparen _semicolon
 
 StmtBlock ::= _leftbrace OptionalVariableDecls OptionalStmts _rightbrace
+StmtBlock ::= _leftbrace OptionalStmts _rightbrace
 OptionalVariableDecls ::= VariableDecl OptionalVariableDecls
-OptionalVariableDecls ::=
+OptionalVariableDecls ::= VariableDecl
 OptionalStmts ::= Stmt OptionalStmts
 OptionalStmts ::=
 
