@@ -71,12 +71,14 @@ public class Parser {
                     //int nt = grammar.nonterminalForRule(table.getReduce(state));
                     int gotoState = table.getGoto(state, left);
                     if (gotoState == -1) {
+                        System.out.println();
                         throw new IllegalArgumentException("No goto defined in table " + state
                                 + " for " + grammar.nameOrIdOf(left));
                     }
 
                     stack.push(gotoState);
                 } else {
+                    System.out.println();
                     // no action defined, error
                     throw new IllegalArgumentException("No action defined in table " + state
                             + " for " + grammar.nameOrIdOf(token));

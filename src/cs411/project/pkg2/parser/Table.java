@@ -271,12 +271,12 @@ public class Table {
     }
 
     private boolean addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
-        System.out.println("\tGOTO:  \t" + tableNum + "\t" + grammar.nameOrIdOf(leadingCharacter) + "\t" + gotoTable);
+        System.out.println("\tGOTO:  \t" + tableNum + "\t" + grammar.nameOrIdOf(leadingCharacter) + ": " + gotoTable);
         return table.addGoto(tableNum, leadingCharacter, gotoTable);
     }
 
     private boolean addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
-        System.out.println("\tSHIFT: \t" + tableNum + "\t" + grammar.nameOrIdOf(leadingCharacter) + "\t" + gotoTable);
+        System.out.println("\tSHIFT: \t" + tableNum + "\t" + grammar.nameOrIdOf(leadingCharacter) + ": " + gotoTable);
         return table.addShift(tableNum, leadingCharacter, gotoTable);
     }
 
