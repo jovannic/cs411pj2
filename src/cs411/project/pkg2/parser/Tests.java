@@ -82,8 +82,9 @@ public class Tests {
     public static void printGrammar(Grammar g) {
         List<List<Integer>> allRules = g.allRules();
 
+        int num = 0;
         for (List<Integer> rule : allRules) {
-            System.out.print(g.nameOf(rule.get(0)) + " ::= ");
+            System.out.print(num++ + ". " + g.nameOf(rule.get(0)) + " ::= ");
 
             List<Integer> slice = rule.subList(2, rule.size());
             for (int id : slice) {
@@ -91,5 +92,6 @@ public class Tests {
             }
             System.out.println();
         }
+        System.out.println();
     }
 }

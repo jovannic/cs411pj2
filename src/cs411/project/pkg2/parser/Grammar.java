@@ -147,6 +147,13 @@ public class Grammar {
         return names.get(id);
     }
 
+    public String nameOrIdOf(int id) {
+        String name = nameOf(id);
+        if (name == null)
+            name = Integer.toString(id);
+        return name;
+    }
+
     public boolean isTerminal(int id) {
         return id >= 0 && id < firstNonterminal;
     }
