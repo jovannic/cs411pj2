@@ -21,16 +21,8 @@ public class JovanniLexingStream implements LexingStream {
     }
 
     @Override
-    public int next() {
-        try {
-            Token t = lexer.next(stream);
-            return t != null ? t.ordinal() : -1;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return -1;
-        }
+    public int next() throws IOException {
+        Token t = lexer.next(stream);
+        return t != null ? t.ordinal() : -1;
     }
 }

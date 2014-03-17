@@ -1,5 +1,6 @@
 package cs411.project.pkg2.parser;
 
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -25,7 +26,7 @@ public class Parser {
      * @param lexer The lexer interface to pull tokens from
      * @return The output string if accepted, else null
      */
-    public List<Integer> parse(LexingStream lexer) throws IllegalArgumentException {
+    public List<Integer> parse(LexingStream lexer) throws IllegalArgumentException, IOException {
         Deque<Integer> stack = new ArrayDeque<Integer>();
         List<Integer> output = new ArrayList<Integer>();
 
@@ -61,6 +62,8 @@ public class Parser {
 
                     // for now current state, goto for that non-terminal
                     state = stack.peek();
+
+
                     stack.push(table.getGoto(state, productions.get(table.getReduce(state)).get(0)));
                 } else {
                     // no action defined, error
