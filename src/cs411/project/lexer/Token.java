@@ -15,7 +15,7 @@ public enum Token {
     _semicolon(";"), _comma(","), _period("."), _leftparen("("),
     _rightparen(")"), _leftbracket("["), _rightbracket("]"), _leftbrace("{"),
     _rightbrace("}"), _boolconstant(null), _intconstant(null), _doubleconstant(null),
-    _stringconstant(null), _id(null), _HASHTAGDOTFUCKITDOTJPG(null);
+    _stringconstant(null), _id(null);
 
     private final static Token[] fromOrdinal = Token.values();
     public static final int length = fromOrdinal.length;
