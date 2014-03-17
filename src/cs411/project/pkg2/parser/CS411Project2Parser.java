@@ -5,7 +5,6 @@
 package cs411.project.pkg2.parser;
 
 import cs411.project.lexer.BasicFileStream;
-import cs411.project.lexer.CharStream;
 import cs411.project.lexer.Lexer;
 
 import java.io.File;
