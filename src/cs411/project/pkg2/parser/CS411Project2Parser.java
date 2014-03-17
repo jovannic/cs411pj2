@@ -23,10 +23,6 @@ public class CS411Project2Parser {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        // run diagnostic tests
-        Tests.runAllTests();
-
-
         Grammar g = Grammar.load(new File("grammar.txt"));
 
         Tests.printGrammar(g);
