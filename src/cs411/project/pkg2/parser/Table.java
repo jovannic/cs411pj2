@@ -270,19 +270,19 @@ public class Table {
         return false;
     }
 
-    private void addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
-        System.out.println("goto:  " + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
-        table.addGoto(tableNum, leadingCharacter, gotoTable);
+    private boolean addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
+        System.out.println("\tGOTO:  \t" + tableNum + "\t" + grammar.nameOrIdOf(leadingCharacter) + "\t" + gotoTable);
+        return table.addGoto(tableNum, leadingCharacter, gotoTable);
     }
 
-    private void addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
-        System.out.println("Shift:  " + tableNum + "\t" + leadingCharacter + "\t" + gotoTable);
-        table.addShift(tableNum, leadingCharacter, gotoTable);
+    private boolean addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
+        System.out.println("\tSHIFT: \t" + tableNum + "\t" + grammar.nameOrIdOf(leadingCharacter) + "\t" + gotoTable);
+        return table.addShift(tableNum, leadingCharacter, gotoTable);
     }
 
-    private void addReduce(int tableNum, Integer production, int count) {
-        System.out.println("Reduce:  " + tableNum + "\t" + production + "\t" + count);
-        table.addReduce(tableNum, production, count);
+    private boolean addReduce(int tableNum, Integer production, int count) {
+        System.out.println("\tREDUCE:\t" + tableNum + "\tr" + production + "\t-" + count);
+        return table.addReduce(tableNum, production, count);
     }
 
     private Integer findProduction(LinkedList<Integer> prod) {
