@@ -23,13 +23,11 @@ public class CS411Project2Parser {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        // TODO code application logic here
-
+        // run diagnostic tests
         Tests.runAllTests();
 
-        Grammar g = Grammar.load(new File("grammar.txt"));
 
-        Tests.printGrammar(g);
+        Grammar g = Grammar.load(new File("grammar.txt"));
 
         Table macTable = new Table(g);
         macTable.makeAi();
@@ -41,13 +39,11 @@ public class CS411Project2Parser {
 
         // Jovanni's lexer
         Lexer lexer = new Lexer();
-        CharStream stream = new BasicFileStream("input2.txt");
 
-        // TODO: do above TODOs so this acctually works
-        try {
-            List<Integer> output = parser.parse(new JovanniLexingStream(lexer, stream));
-        } catch(IllegalArgumentException e) {
-            System.out.println("Useful Information about the error that just happened");
-        }
+        // token stream using Jovanni's lexer to lex a file
+        LexingStream stream = new JovanniLexingStream(lexer, new BasicFileStream("input2.txt"));
+
+        // parse
+        List<Integer> output = parser.parse(stream);
     }
 }
