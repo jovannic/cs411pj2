@@ -13,7 +13,7 @@ import java.util.*;
  * @author Michael
  */
 public class Table {
-    public static final Integer DOT = 0; // the value of our dot
+    public static final Integer DOT = -1; // the value of our dot
     private static final Integer AFTER_DOT = 2;
     private List<List<List<Integer>>> listomania;
     // this should not change, so it should be final
