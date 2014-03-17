@@ -12,94 +12,49 @@ import java.util.List;
  * @author Michael
  */
 public class Tests {
-    Grammar g;
-
-    Tests(Grammar g) {
-        this.g = g;
+    public static void runAllTests() {
+        tableTest();
+        emptyProductionTest();
+        realTest();
     }
 
-    public void runAllTests() {
-        printGrammar();
-//        tableTest();
-//        emptyProductionTest();
-//        realTest();
-    }
-    
-/*
-    private void tableTest() {
+    private static void tableTest() {
         List<List<Integer>> l = new LinkedList();
-        List<Integer> li = new LinkedList();
-        li.add(new Integer(10));
-        li.add(new Integer(0));
-        li.add(new Integer(5));
-        li.add(new Integer(20));
-        l.add(li);
-        li = new LinkedList();
-        li.add(new Integer(20));
-        li.add(new Integer(0));
-        li.add(new Integer(6));
-        l.add(li);
-        li = new LinkedList();
-        li.add(new Integer(20));
-        li.add(new Integer(0));
-        li.add(new Integer(7));
-        l.add(li);
-        Table t = new Table(l,9);
-        t.makeAi();
-        printList(t.getLists());
-    }
-    
-    private void emptyProductionTest() {
-        List<List<Integer>> l = new LinkedList();
-        List<Integer> li = new LinkedList();
-        li.add(new Integer(10));
-        li.add(new Integer(0));
-        li.add(new Integer(5));
-        li.add(new Integer(20));
-        li.add(new Integer(30));
-        li.add(new Integer(7));
-        l.add(li);
-        li = new LinkedList();
-        li.add(new Integer(20));
-        li.add(new Integer(0));
-        li.add(new Integer(-1));
-        l.add(li);
-        li = new LinkedList();
-        li.add(new Integer(30));
-        li.add(new Integer(0));
-        l.add(li);
-        li = new LinkedList();
-        Table t = new Table(l,9);
-        t.makeAi();
-        printList(t.getLists());
-    }
-    
-    private void realTest() {
-        List<List<Integer>> l = new LinkedList();
-        List<Integer> li = new LinkedList();
-        li.add(new Integer(47));
-        li.add(new Integer(0));
-        li.add(new Integer(48));
-        l.add(li);
-        li = new LinkedList();
-        li.add(new Integer(48));
-        li.add(new Integer(0));
-        li.add(new Integer(49));
-        l.add(li);
-        li = new LinkedList();
-        li.add(new Integer(48));
-        li.add(new Integer(0));
-        li.add(new Integer(49));
-        li.add(new Integer(48));
-        l.add(li);
-        li = new LinkedList();
-        Table t = new Table(l,46);
-        t.makeAi();
-        printList(t.getLists());
-    }
-*/
+        l.add(Grammar.makeRule(10, 5, 20));
+        l.add(Grammar.makeRule(20, 6));
+        l.add(Grammar.makeRule(20, 7));
 
-    public void printList(List<List<List<Integer>>> l) {
+        Grammar g = new Grammar(l, 9);
+        Table t = new Table(g);
+        t.makeAi();
+        printList(t.getLists(), g);
+    }
+    
+    private static void emptyProductionTest() {
+        List<List<Integer>> l = new LinkedList();
+        l.add(Grammar.makeRule(10, 5, 2, 30, 7));
+        l.add(Grammar.makeEmpty(20));
+        l.add(Grammar.makeEmpty(30));
+
+        Grammar g = new Grammar(l, 9);
+        Table t = new Table(g);
+        t.makeAi();
+        printList(t.getLists(), g);
+    }
+    
+    private static void realTest() {
+        List<List<Integer>> l = new LinkedList();
+        l.add(Grammar.makeRule(47, 48));
+        l.add(Grammar.makeRule(48, 49));
+        l.add(Grammar.makeRule(48, 49, 48));
+
+        Grammar g = new Grammar(l,46);
+        Table t = new Table(g);
+        t.makeAi();
+        printList(t.getLists(), g);
+    }
+
+    public static void printList(List<List<List<Integer>>> l, Grammar g) {
         System.out.println();
         for(int i = 0; i < l.size(); i++) {
             List<List<Integer>> table = l.get(i);
@@ -109,7 +64,11 @@ public class Tests {
                 List<Integer> tableItem = table.get(j);
 
                 for (int k = 0; k < l.get(i).get(j).size(); k++) {
-                    String name = (k == Table.DOT.intValue()) ? "." : g.nameOf(tableItem.get(k));
+                    int item = tableItem.get(k);
+                    String name = (item == Table.DOT) ? "." : g.nameOf(item);
+                    if (name == null)
+                        name = Integer.toString(item);
+
                     System.out.print(name + " ");
                 }
                 System.out.println();
@@ -118,7 +77,7 @@ public class Tests {
         }
     }
 
-    public void printGrammar() {
+    public static void printGrammar(Grammar g) {
         List<List<Integer>> allRules = g.allRules();
 
         for (List<Integer> rule : allRules) {
