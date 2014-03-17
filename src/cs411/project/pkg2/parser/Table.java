@@ -88,7 +88,7 @@ public class Table {
                 Integer production = findProduction(new LinkedList(rule));
                 int right = (rule.size() - 2); // TODO: acctual value
                 addReduce(tableNum, production, right);
-                return;
+                continue;
             }
 
             //add all of the rules that match this character
