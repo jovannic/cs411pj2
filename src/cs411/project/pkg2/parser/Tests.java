@@ -58,16 +58,14 @@ public class Tests {
         System.out.println();
         for(int i = 0; i < l.size(); i++) {
             List<List<Integer>> table = l.get(i);
-            System.out.println("Table number: " + i);
+            System.out.println("Table " + i + ":");
 
-            for (int j = 0; j < l.get(i).size(); j++) {
+            for (int j = 0; j < table.size(); j++) {
                 List<Integer> tableItem = table.get(j);
 
-                for (int k = 0; k < l.get(i).get(j).size(); k++) {
-                    int item = tableItem.get(k);
-                    String name = (item == Table.DOT) ? "." : g.nameOf(item);
-                    if (name == null)
-                        name = Integer.toString(item);
+                System.out.print("\t" + usefulName(tableItem.get(0), g) + " = ");
+                for (int k = 1; k < tableItem.size(); k++) {
+                    String name = usefulName(tableItem.get(k), g);
 
                     System.out.print(name + " ");
                 }
@@ -75,6 +73,13 @@ public class Tests {
             }
             System.out.println();
         }
+    }
+    
+    private static String usefulName(int id, Grammar g) {
+        String name = (id == Table.DOT) ? "." : g.nameOf(id);
+        if (name == null)
+            name = Integer.toString(id);
+        return name;
     }
 
     public static void printGrammar(Grammar g) {
