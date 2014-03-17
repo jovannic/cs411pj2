@@ -29,13 +29,12 @@ public class CS411Project2Parser {
 
         Grammar g = Grammar.load(new File("grammar.txt"));
 
-        Table macTable = new Table(g);
-        macTable.makeAi();
+        Table macTable = Table.makeTable(g);
 
         Tests.printList(macTable.getLists(), g);
 
-        SLRTable table = macTable.getTable();
-        Parser parser = new Parser(table, 0, g.allRules()); // TODO: figure out where to accept correctly
+        SLRTable lrTable = macTable.getTable();
+        Parser parser = new Parser(lrTable, 0, g.allRules()); // TODO: figure out where to accept correctly
 
         // Jovanni's lexer
         Lexer lexer = new Lexer();

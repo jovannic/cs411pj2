@@ -23,12 +23,18 @@ public class Table {
 
     private SLRTable table;
 
-    public Table(Grammar grammar) {
+    public static Table makeTable(Grammar grammar) {
+        return new Table(grammar);
+    }
+
+    private Table(Grammar grammar) {
         this.grammar = grammar;
         this.productions = grammar.allRules();
 
         listomania = new LinkedList();
         table = new HashSLRTable();
+
+        makeAi();
     }
 
     /**
@@ -43,7 +49,7 @@ public class Table {
         return table;
     }
 
-    public void makeAi() {
+    private void makeAi() {
         //int tableNum = 0;
         int startProductionNum = 0;
         //this adds our first rule to the table
@@ -56,7 +62,6 @@ public class Table {
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
             addNonterminalsToTable(tableNum);
             generateTables(tableNum);
-            
         }
     }
 

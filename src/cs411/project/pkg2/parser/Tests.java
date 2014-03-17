@@ -25,8 +25,7 @@ public class Tests {
         l.add(Grammar.makeRule(20, 7));
 
         Grammar g = new Grammar(l, 9);
-        Table t = new Table(g);
-        t.makeAi();
+        Table t = Table.makeTable(g);
         printList(t.getLists(), g);
     }
     
@@ -37,8 +36,7 @@ public class Tests {
         l.add(Grammar.makeEmpty(30));
 
         Grammar g = new Grammar(l, 9);
-        Table t = new Table(g);
-        t.makeAi();
+        Table t = Table.makeTable(g);
         printList(t.getLists(), g);
     }
     
@@ -49,8 +47,7 @@ public class Tests {
         l.add(Grammar.makeRule(48, 49, 48));
 
         Grammar g = new Grammar(l,46);
-        Table t = new Table(g);
-        t.makeAi();
+        Table t = Table.makeTable(g);
         printList(t.getLists(), g);
     }
 
