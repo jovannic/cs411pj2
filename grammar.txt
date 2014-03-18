@@ -122,6 +122,9 @@ OptionalExpr ::=
 
 Lvalue ::= _id
 Lvalue ::= Expr _leftbracket Expr _rightbracket
+Lvalue ::= _id _leftbracket _id _rightbracket
+Lvalue ::= Expr _leftbracket _id _rightbracket
+Lvalue ::= _id _leftbracket Expr _rightbracket
 Lvalue ::= Expr _period _id
 Lvalue ::= _id _period _id
 

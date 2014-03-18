@@ -8,6 +8,13 @@ int main() {
 	int a;
 	int b;
 	int c;
+	a = a.apple;  
+	a = a.apple();
+	a = a.dapple(b);
+	(a)[(b)].c = a;
+	a[(b)].c = a;
+	a[b].c = a;
+	(a)[b].c = a;
 	break;
 	return 5;
 	return;
