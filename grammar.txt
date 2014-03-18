@@ -39,6 +39,7 @@ OptionalFields ::= Field OptionalFields
 OptionalFields ::=
 
 Field ::= VariableDecl
+Field ::= _id _id _semicolon
 Field ::= FunctionDecl
 
 InterfaceDecl ::= _interface _id _leftbrace OptionalPrototypes _rightbrace

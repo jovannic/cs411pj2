@@ -1,0 +1,49 @@
+int a;
+double b;
+bool c;
+string d;
+int [] e;
+int main() {
+	int a;
+	int b;
+	int c;
+	break;
+	return 5;
+	return;
+	println(5 + "6");
+	for(;5<6;) {
+		a;
+		a = a;
+		"cookies";
+		5;
+		true;
+		8.5e10;
+		
+	}
+	for(i = 0; i < 6; i = i + 1) {
+		break;
+	}
+	while(function()) {
+		a = b + c;
+	}
+}
+void functionDos(Random args) {
+	println("Much wow!");
+	println("such code!");
+}
+class apple {
+	apple a;
+	muchwow b;
+	int c;
+}
+class pear extends apple implements fruit {
+	apple a;
+	pear p;
+	apple dapple(apple papple) {
+		println("fruit says wow!");
+		println("but what does the fox say?");
+	}
+}
+interface fruit {
+	apple dapple(apple papple);
+}
