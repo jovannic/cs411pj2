@@ -13,6 +13,7 @@ import java.util.*;
  * @author Michael
  */
 public class Table {
+
     public static final Integer DOT = -1; // the value of our dot
     private static final Integer AFTER_DOT = 2;
     private List<List<List<Integer>>> listomania;
@@ -20,7 +21,7 @@ public class Table {
     private final List<List<Integer>> productions;
     // the grammar we're making a table for
     private final Grammar grammar;
-
+    private List<List<Set<Integer>>> followSet;
     private SLRTable table;
 
     public static Table makeTable(Grammar grammar) {
@@ -32,6 +33,7 @@ public class Table {
         this.productions = grammar.allRules();
 
         listomania = new LinkedList();
+        followSet = new LinkedList();
         table = new HashSLRTable();
 
         makeAi();
@@ -45,8 +47,13 @@ public class Table {
     public List<List<List<Integer>>> getLists() {
         return listomania;
     }
+
     public SLRTable getTable() {
         return table;
+    }
+
+    public List<List<Set<Integer>>> getFollowSet() {
+        return followSet;
     }
 
     private void makeAi() {
@@ -57,6 +64,8 @@ public class Table {
         LinkedList<List<Integer>> ruleSq = new LinkedList();
         ruleSq.add(rule);
         listomania.add((LinkedList) ruleSq.clone());
+        followSet.add(new LinkedList());
+        followSet.get(0).add(new HashSet());
 
         //if we have nonterminals after the dot, we want to add all of their rules to the table
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
@@ -67,10 +76,13 @@ public class Table {
 
     private void generateTables(int tableNum) {
         // linked list index lookups aren't cheap, reuse
-        List<List<Integer>> table = listomania.get(tableNum);
 
+        List<List<Integer>> table = listomania.get(tableNum);
+        List<Set<Integer>> followTable = followSet.get(tableNum);
+        List<Set<Integer>> ruleFollowSet = new LinkedList();
         //for each of the rules in X
         for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
+            ruleFollowSet = new LinkedList();
             LinkedList<List<Integer>> ruleList = new LinkedList<List<Integer>>(); //its called characterList but it is Integers...
             List<Integer> rule = table.get(ruleNum);
 
@@ -99,6 +111,9 @@ public class Table {
                     if (table.get(i).get(charNum).intValue() == leadingCharacter.intValue()) {
                         //add it to the list
                         ruleList.add(new LinkedList(table.get(i)));
+                        if (followTable.get(i) != null) {
+                            ruleFollowSet.add(new HashSet(followTable.get(i)));
+                        }
                         //we need to clone because we want to be able to manipulate these rules.
                     }
                 }
@@ -107,7 +122,7 @@ public class Table {
             }
             for (List<Integer> ruleListItem : ruleList) {
                 int afterDotIndex = findAfterDot(ruleListItem);
-                
+
                 int dotIndex = afterDotIndex - 1;
 
                 //make sure we are not out of bounds
@@ -120,7 +135,7 @@ public class Table {
                 //we do this for every rule in the list
             }
             // linear search for tables that BEGIN WITH the production rules of the table we want to add
-            int gotoTable = doesTableExist(ruleList);
+            int gotoTable = doesTableExist(ruleList, ruleFollowSet);
             if (gotoTable == -1) {
                 //make table
                 //add it to the end of the linked list
@@ -131,7 +146,8 @@ public class Table {
                 //tableNum = listomania.size();
                 gotoTable = listomania.size();
                 listomania.add((LinkedList) ruleList);
-                
+                followSet.add((LinkedList) ruleFollowSet);
+
 
             } else {
                 //do nothing... maybe
@@ -143,7 +159,7 @@ public class Table {
             } else {
                 // for nonterminals on top of the stack (they arent really added to the stack)
                 // we want to add them to the goto
-                
+
                 addGoto(tableNum, leadingCharacter, gotoTable);
             }
         }
@@ -156,13 +172,14 @@ public class Table {
      * @return Returns an int corresponding to the table that has matching
      * initial rules, or -1 if a table was not found
      */
-    private int doesTableExist(List<List<Integer>> query) {
+    private int doesTableExist(List<List<Integer>> query, List<Set<Integer>> queryFollow) {
         //int tableNum = 0;
         for (int tableNum = 0; tableNum < listomania.size(); tableNum++) {
             List<List<Integer>> table = listomania.get(tableNum);
+            List<Set<Integer>> followTable = followSet.get(tableNum);
 
             boolean flag = true;
-            for (int i = 0; i < query.size() && i < table.size() ; i++) {
+            for (int i = 0; i < query.size() && i < table.size(); i++) {
                 List<Integer> queryItem = query.get(i);
                 List<Integer> tableItem = table.get(i);
 
@@ -180,7 +197,16 @@ public class Table {
             }
             if (flag == true) {
                 //if we finish checking our query, and we still have true, then return the table we are on.
-                return tableNum;
+                //check the follow set
+                for (int i = 0; i < queryFollow.size() && i < followTable.size(); i++) {
+                    if (!queryFollow.get(i).equals(followTable.get(i))) {
+                        break;
+                    } else if (i == queryFollow.size() - 1) {
+                        //only return if the follow sets match
+                        return tableNum;
+                    }
+                }
+
             }
         }
 
@@ -208,9 +234,10 @@ public class Table {
         //int tableNum = 0;
         //int ruleNum = 0;
         List<List<Integer>> table = listomania.get(tableNum);
+        List<Set<Integer>> followTable = followSet.get(tableNum);
         for (int ruleNum = 0; ruleNum < table.size(); ruleNum++) {
             List<Integer> rule = table.get(ruleNum);
-
+            Set<Integer> followRule = followTable.get(ruleNum);
             //find the point after the dot dot
             int charNum = findAfterDot(rule);
 
@@ -233,6 +260,39 @@ public class Table {
                             if (checkForRules(production, listomania.get(tableNum)) == false) {
                                 //we want to clone so we do not alter the productions list.
                                 table.add(new LinkedList<Integer>(production));
+                                List temp = new LinkedList(rule);
+                                for (int s = 0; s < charNum; s++) {
+                                    temp.remove(0);
+                                }
+                                followTable.add(first(temp));
+                                if (followTable.get(followTable.size() - 1) != null) {
+                                    followTable.get(followTable.size() - 1).addAll(followRule);
+                                }
+
+                                //followTable.add()
+                            } else {
+                                for (int s = 0; s < table.size(); s++) {
+                                    List<Integer> ruleCheck = table.get(s);
+                                    for (int t = 0; t < ruleCheck.size(); t++) {
+                                        if (ruleCheck.size() != production.size()) {
+                                            continue;
+                                        } else if (ruleCheck.get(t).intValue() != production.get(t).intValue()) {
+                                            continue;
+                                        } else if (t == ruleCheck.size() - 1) {
+                                            //if the rule we are trying to add already exists, we need to still add the follow set
+                                            followTable.get(s).addAll(followRule);
+                                            List temp = new LinkedList(rule);
+                                            for (int k = 0; k < charNum; k++) {
+                                                temp.remove(0);
+                                            }
+                                            followTable.add(first(temp));
+                                            if (followTable.get(followTable.size() - 1).containsAll(followRule)) {
+                                                System.out.println();
+                                            }
+                                            followTable.get(followTable.size() - 1).addAll(followRule);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -245,21 +305,21 @@ public class Table {
         // a is a list of terminals and non terminals
         // we want to see if that string of terminals and non terminals with the dot position is an exact match to any of the rules in b
         boolean output = false;
-        
+
         for (int i = 0; i < b.size(); i++) {
             List<Integer> bItem = b.get(i);
             if (a.size() == b.get(i).size()) {
-            for (int j = 0; j < bItem.size(); j++) {
-                if (a.get(j).intValue() != bItem.get(j).intValue()) {
-                    //characters do not match 
-                    output = false;
-                    //characters do not need to match
-                    break;
-                } else {
-                    // if the characters match, and continue to match, set it to true.
-                    output = true;
+                for (int j = 0; j < bItem.size(); j++) {
+                    if (a.get(j).intValue() != bItem.get(j).intValue()) {
+                        //characters do not match 
+                        output = false;
+                        //characters do not need to match
+                        break;
+                    } else {
+                        // if the characters match, and continue to match, set it to true.
+                        output = true;
+                    }
                 }
-            }
             }
             //
             if (output == true) {
@@ -270,29 +330,29 @@ public class Table {
         return false;
     }
 
-    private boolean addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
+    private void addGoto(int tableNum, Integer leadingCharacter, int gotoTable) {
         System.out.println("\tGOTO:  \t" + tableNum + "\t" + grammar.nameOrIdOf(leadingCharacter) + "\t" + gotoTable);
-        return table.addGoto(tableNum, leadingCharacter, gotoTable);
+        //return table.addGoto(tableNum, leadingCharacter, gotoTable);
     }
 
-    private boolean addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
+    private void addShift(int tableNum, Integer leadingCharacter, int gotoTable) {
         System.out.println("\tSHIFT: \t" + tableNum + "\t" + grammar.nameOrIdOf(leadingCharacter) + "\t" + gotoTable);
-        return table.addShift(tableNum, leadingCharacter, gotoTable);
+        //return table.addShift(tableNum, leadingCharacter, gotoTable);
     }
 
-    private boolean addReduce(int tableNum, Integer production, int count) {
+    private void addReduce(int tableNum, Integer production, int count) {
         System.out.println("\tREDUCE:\t" + tableNum + "\tr" + production + "\t-" + count);
-        return table.addReduce(tableNum, production, count);
+        //return table.addReduce(tableNum, production, count);
     }
 
     private Integer findProduction(LinkedList<Integer> prod) {
         prod.remove(prod.size() - 1);
         prod.add(1, DOT);
-        
-        for(int i = 0; i < productions.size(); i++) {
-            if(productions.get(i).size() == prod.size()) {
-                for(int charNum = 0; charNum < prod.size(); charNum++) {
-                    if(productions.get(i).get(charNum).intValue() != prod.get(charNum).intValue()) {
+
+        for (int i = 0; i < productions.size(); i++) {
+            if (productions.get(i).size() == prod.size()) {
+                for (int charNum = 0; charNum < prod.size(); charNum++) {
+                    if (productions.get(i).get(charNum).intValue() != prod.get(charNum).intValue()) {
                         break;
                     } else if (charNum == prod.size() - 1) {
                         //if all of the characters match up to this point, and we are at the last character
@@ -305,5 +365,48 @@ public class Table {
         }
         System.out.println("Can't Find production");
         return null; // should never return null
+    }
+
+    public Set<Integer> first(List<Integer> query) {
+        int k = 1;
+        List<List<Integer>> workingTable = new LinkedList();
+        Set<Integer> output = new HashSet<Integer>();
+
+        boolean emptyStringProduction = false;
+        if (query == null) {
+            return null;
+        }
+        if (query.size() == 0) {
+            return new HashSet<Integer>();
+        }
+        for (int i = 0; i < query.size(); i++) {
+
+            if (isTerminal(query.get(i)) == true) {
+                output.add(query.get(i));
+                return output;
+            } else if (isTerminal(query.get(i)) != true) {
+                int nonterminal = query.get(i);
+                for (int prodNum = 0; prodNum < productions.size(); prodNum++) {
+                    if (productions.get(prodNum).get(0).intValue() == nonterminal) {
+                        //if it matches
+                        //find first of that rule
+                        //add its result to our output
+                        if (productions.get(prodNum).size() != 2) {
+                            List newList = new LinkedList(productions.get(prodNum));
+                            newList.remove(0);
+                            newList.remove(0);
+                            output.addAll(newList);
+                        } else {
+                            emptyStringProduction = true;
+                        }
+                    }
+                }
+                if (emptyStringProduction == false) {
+                    return output;
+                }//else itterate
+                //if we saw an empty string production, then we want to iterate
+            }
+        }
+        return null;
     }
 }

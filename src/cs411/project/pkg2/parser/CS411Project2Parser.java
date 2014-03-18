@@ -24,12 +24,12 @@ public class CS411Project2Parser {
      */
     public static void main(String[] args) throws IOException {
         Grammar g = Grammar.load(new File("grammar.txt"));
-
+        Tests.runAllTests();
         Tests.printGrammar(g);
 
         Table macTable = Table.makeTable(g);
 
-        Tests.printList(macTable.getLists(), g);
+        Tests.printList(macTable.getLists(), g, macTable.getFollowSet());
 
         SLRTable lrTable = macTable.getTable();
         Parser parser = new Parser(lrTable, g); // TODO: figure out where to accept correctly

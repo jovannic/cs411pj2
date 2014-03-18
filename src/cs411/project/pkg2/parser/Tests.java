@@ -6,6 +6,7 @@ package cs411.project.pkg2.parser;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -13,9 +14,11 @@ import java.util.List;
  */
 public class Tests {
     public static void runAllTests() {
+        dummytest();
         tableTest();
         emptyProductionTest();
         realTest();
+        exampleTest();
     }
 
     private static void tableTest() {
@@ -26,7 +29,7 @@ public class Tests {
 
         Grammar g = new Grammar(l, 9);
         Table t = Table.makeTable(g);
-        printList(t.getLists(), g);
+        printList(t.getLists(), g, t.getFollowSet());
     }
     
     private static void emptyProductionTest() {
@@ -37,7 +40,7 @@ public class Tests {
 
         Grammar g = new Grammar(l, 9);
         Table t = Table.makeTable(g);
-        printList(t.getLists(), g);
+        printList(t.getLists(), g, t.getFollowSet());
     }
     
     private static void realTest() {
@@ -48,10 +51,21 @@ public class Tests {
 
         Grammar g = new Grammar(l,46);
         Table t = Table.makeTable(g);
-        printList(t.getLists(), g);
+        printList(t.getLists(), g, t.getFollowSet());
+    }
+    
+    private static void exampleTest() {
+        List<List<Integer>> l = new LinkedList();
+        l.add(Grammar.makeRule(47, 48));
+        l.add(Grammar.makeRule(48, 49, 1, 49, 2));
+        l.add(Grammar.makeRule(48, 3));
+
+        Grammar g = new Grammar(l,46);
+        Table t = Table.makeTable(g);
+        printList(t.getLists(), g, t.getFollowSet());
     }
 
-    public static void printList(List<List<List<Integer>>> l, Grammar g) {
+    public static void printList(List<List<List<Integer>>> l, Grammar g, List<List<Set<Integer>>> f) {
         System.out.println();
         for(int i = 0; i < l.size(); i++) {
             List<List<Integer>> table = l.get(i);
@@ -65,6 +79,14 @@ public class Tests {
                     String name = usefulName(tableItem.get(k), g);
 
                     System.out.print(name + " ");
+                }
+                Integer[] followSet = new Integer[f.get(i).get(j).size()];
+                 f.get(i).get(j).toArray(followSet);
+                 System.out.print("| "); //print pipe for clarity
+                for (int k = 0; k < followSet.length; k++) {
+                    
+                    System.out.print(followSet[k] + " ");
+                   
                 }
                 System.out.println();
             }
@@ -93,5 +115,20 @@ public class Tests {
             System.out.println();
         }
         System.out.println();
+    }
+
+    private static void dummytest() {
+        List<List<Integer>> l = new LinkedList();
+        l.add(Grammar.makeRule(10, 5, 20));
+        l.add(Grammar.makeRule(20, 6));
+        l.add(Grammar.makeRule(20, 7));
+
+        Grammar g = new Grammar(l, 9);
+        Table t = Table.makeTable(g);
+        List a = new LinkedList();
+        a.add(20);
+        Set b = t.first(a);
+        System.out.println();
+        
     }
 }
