@@ -1,2 +1,24 @@
 1.  S/R and R/R conflicts.
 Our major reduce conflict was between types and lvalues, because it could not figure out if something was a variable declaration or an lvalue because both start with the token _id.  The way we solved this was by making the production rules longer, basically making it so that the parser delays when it has to make the decision of what to reduce it to.  We also split up _id from type and gave it a separate state.  All of the other shift reduce conflicts were solved by shifting first then reducing.
+
+2. Test Case Design
+
+We have two test cases that are invalid for the language, and four more to test various cases of valid grammar.
+
+failTest1.txt: fails
+	In the Toy grammar, all variables must be declared before any statements in a block, like in classic C. This fails because it declares a loop variable inside of for loop itself.
+
+pj1test.txt: fails
+	This is the cs411 class extracted from the example file from the example given for project 1, with the obvious lex error of the double constant without a dot corrected. It still fails because it contains assignments and expressions within a class declaration, outside of a function.
+
+input2.txt: passes
+	Is a bare-bones declaration and assignment test
+
+appletest.txt: passes
+	Meant to test arrays and member variables, as well as function declarations with user types
+
+pigbutts.txt: passes
+	This was created in to address some issues we were having with arrays and multidimensional arrays of user types.
+
+completeTest.txt: passes
+	A big tests of global variables, various expressions, println, readln, and usages of arrays and newarray
