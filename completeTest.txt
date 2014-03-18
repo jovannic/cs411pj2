@@ -27,6 +27,10 @@ int main() {
 	while(function()) {
 		a = b + c;
 	}
+
+	boot = newarray(1, big[][]);
+	boot[0] = newarray(5, big[]);
+	boot[a] = 2;
 }
 void functionDos(Random args) {
 	println("Much wow!");
