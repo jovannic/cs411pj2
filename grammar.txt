@@ -3,6 +3,7 @@ DeclList ::= Decl
 DeclList ::= Decl DeclList
 
 Decl ::= VariableDecl
+Decl ::= UserVariableDecl
 Decl ::= FunctionDecl
 Decl ::= ClassDecl
 Decl ::= InterfaceDecl
@@ -20,6 +21,10 @@ TypeOrVoidID ::= TypeID
 TypeOrVoidID ::= _void _id
 
 VariableDecl ::= TypeID _semicolon
+UserVariableDecl ::= _id UserType _semicolon
+UserVariableDecl ::= _id _id _semicolon
+UserType ::= _leftbracket _rightbracket UserType
+UserType ::= _id
 
 FunctionDecl ::= TypeOrVoidID _leftparen Formals _rightparen StmtBlock
 
@@ -39,7 +44,7 @@ OptionalFields ::= Field OptionalFields
 OptionalFields ::=
 
 Field ::= VariableDecl
-Field ::= _id _id _semicolon
+Field ::= UserVariableDecl
 Field ::= FunctionDecl
 
 InterfaceDecl ::= _interface _id _leftbrace OptionalPrototypes _rightbrace
@@ -47,10 +52,9 @@ OptionalPrototypes ::= Prototype OptionalPrototypes
 OptionalPrototypes ::=
 
 Prototype ::= TypeOrVoidID _leftparen Formals _rightparen _semicolon
-UserVariable ::= _id _id _semicolon
 StmtBlock ::= _leftbrace OptionalVariableDecls _rightbrace
 OptionalVariableDecls ::= VariableDecl OptionalVariableDecls  
-OptionalVariableDecls ::= UserVariable OptionalVariableDecls  
+OptionalVariableDecls ::= UserVariableDecl OptionalVariableDecls  
 OptionalVariableDecls ::= OptionalStmts 
 OptionalStmts ::= Stmt OptionalStmts
 OptionalStmts ::=

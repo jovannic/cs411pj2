@@ -1,4 +1,5 @@
 int a;
+big [] boot;
 double b;
 bool c;
 string d;
