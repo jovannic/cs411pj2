@@ -36,7 +36,7 @@ public class CS411Project2Parser {
         // Jovanni's lexer
         Lexer lexer = new Lexer();
 
-        parseFile(lexer, parser, "FailTest1.txt");
+        parseFile(lexer, parser, "completeTest.txt");
     }
 
     public static void parseFile(Lexer lexer, Parser parser, String filename) throws IOException {
