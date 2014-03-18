@@ -123,16 +123,18 @@ public class CompactSLRTable implements LRTable {
         }
 
         private int get(int tableID, int symbol) {
-            int index = start[tableID];
+            if (tableID < start.length) {
+                int index = start[tableID];
 
-            if (index != -1) {
-                int n = symbols.length;
-                for (int i = index; i < n; i++) {
-                    int s = this.symbols[i];
-                    if (s == DELIMITER)
-                        break;
-                    else if (s == symbol)
-                        return values[i];
+                if (index != -1) {
+                    int n = symbols.length;
+                    for (int i = index; i < n; i++) {
+                        int s = this.symbols[i];
+                        if (s == DELIMITER)
+                            break;
+                        else if (s == symbol)
+                            return values[i];
+                    }
                 }
             }
             return -1;
