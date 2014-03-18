@@ -20,7 +20,7 @@ public class Table {
     // the grammar we're making a table for
     private final Grammar grammar;
 
-    private HashSLRTable table;
+    private CompactSLRTable table;
 
     public static Table makeTable(Grammar grammar) {
         return new Table(grammar);
@@ -31,7 +31,7 @@ public class Table {
         this.productions = grammar.allRules();
 
         listomania = new LinkedList();
-        table = new HashSLRTable();
+        table = new CompactSLRTable();
 
         makeAi();
     }

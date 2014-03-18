@@ -36,9 +36,14 @@ public class CS411Project2Parser {
         // Jovanni's lexer
         Lexer lexer = new Lexer();
 
-        // token stream using Jovanni's lexer to lex a file
-        LexingStream stream = new JovanniLexingStream(lexer, new BasicFileStream("FailTest1.txt"));
+        parseFile(lexer, parser, "FailTest1.txt");
+    }
 
+    public static void parseFile(Lexer lexer, Parser parser, String filename) throws IOException {
+        // token stream using Jovanni's lexer to lex a file
+        LexingStream stream = new JovanniLexingStream(lexer, new BasicFileStream(filename));
+
+        System.out.println("Parsing \"" + filename + "\":");
         // parse
         List<Integer> output = parser.parse(stream);
     }
