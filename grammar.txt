@@ -14,13 +14,13 @@ Type ::= _bool
 Type ::= _string
 Type ::= Type _leftbracket _rightbracket
 
-TypeID ::= Type _id
-TypeID ::= _id _id
+Variable ::= Type _id
+Variable ::= _id _id
 
-TypeOrVoidID ::= TypeID
+TypeOrVoidID ::= Variable
 TypeOrVoidID ::= _void _id
 
-VariableDecl ::= TypeID _semicolon
+VariableDecl ::= Variable _semicolon
 
 UserVariableDecl ::= _id _id _semicolon
 UserVariableDecl ::= _id ArrayType _id _semicolon
