@@ -11,7 +11,6 @@ Type ::= _int
 Type ::= _double
 Type ::= _bool
 Type ::= _string
-Type ::= _id
 Type ::= Type _leftbracket _rightbracket
 
 TypeID ::= Type _id
@@ -47,9 +46,10 @@ OptionalPrototypes ::=
 
 Prototype ::= TypeOrVoidID _leftparen Formals _rightparen _semicolon
 
-StmtBlock ::= _leftbrace OptionalVariableDecls OptionalStmts _rightbrace
-OptionalVariableDecls ::= VariableDecl OptionalVariableDecls
-OptionalVariableDecls ::=
+StmtBlock ::= _leftbrace OptionalVariableDecls
+OptionalVariableDecls ::= VariableDecl OptionalVariableDecls OptionalStmts  _rightbrace
+OptionalVariableDecls ::= _id _id OptionalVariableDecls OptionalStmts  _rightbrace
+OptionalVariableDecls ::= OptionalStmts  _rightbrace
 OptionalStmts ::= Stmt OptionalStmts
 OptionalStmts ::=
 
