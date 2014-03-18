@@ -21,17 +21,25 @@ TypeOrVoidID ::= TypeID
 TypeOrVoidID ::= _void _id
 
 VariableDecl ::= TypeID _semicolon
-UserVariableDecl ::= _id UserType _semicolon
+
 UserVariableDecl ::= _id _id _semicolon
-UserType ::= _leftbracket _rightbracket UserType
-UserType ::= _id
+UserVariableDecl ::= _id ArrayType _id _semicolon
+
+ArrayType ::= ArrayType _leftbracket _rightbracket
+ArrayType ::= _leftbracket _rightbracket
+
+AllType ::= Type
+AllType ::= _id
+AllType ::= _id ArrayType
+
+AllVariable ::= AllType _id
 
 FunctionDecl ::= TypeOrVoidID _leftparen Formals _rightparen StmtBlock
 
 Formals ::= VariableList
 Formals ::=
-VariableList ::= TypeID
-VariableList ::= TypeID _comma VariableList
+VariableList ::= AllVariable
+VariableList ::= AllVariable _comma VariableList
 
 ClassDecl ::= _class _id OptionalExtends OptionalImplements _leftbrace OptionalFields _rightbrace
 OptionalExtends ::= _extends _id
@@ -103,7 +111,7 @@ Expr ::= Expr _and Expr
 Expr ::= Expr _or Expr
 Expr ::= _not Expr
 Expr ::= _readln _leftparen _rightparen
-Expr ::= _newarray _leftparen _intconstant _comma Type _rightparen
+Expr ::= _newarray _leftparen _intconstant _comma AllType _rightparen
 
 ExprList ::= Expr
 ExprList ::= Expr _comma ExprList

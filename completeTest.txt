@@ -48,3 +48,19 @@ class pear extends apple implements fruit {
 interface fruit {
 	apple dapple(apple papple);
 }
+
+class Piggy {
+    void delete(shit[] allThat) {
+        play("http://www.youtube.com/watch?v=ZoGQrKC2ztI");
+        mangle(allThat);
+        burninate(allThat);
+    }
+    int main(string[] args) {
+        Piggy piggy;
+        shit[] code;
+
+        code = newarray(9001, shit);
+        piggy.delete(code);
+        return 0;
+    }
+}
