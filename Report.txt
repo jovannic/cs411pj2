@@ -1,9 +1,11 @@
+Since we wrote our (SLR) parser by hand we had to make some changes to the grammar that made the final parse tree significantly more convoluted in some places in order to have it accept or reject the same language within the constraints of the SLR parser generation.
+
 1.  S/R and R/R conflicts.
-Our major reduce conflict was between types and lvalues, because it could not figure out if something was a variable declaration or an lvalue because both start with the token _id.  The way we solved this was by making the production rules longer, basically making it so that the parser delays when it has to make the decision of what to reduce it to.  We also split up _id from type and gave it a separate state.  All of the other shift reduce conflicts were solved by shifting first then reducing.
+Our major reduce conflict was between Types and LValues, because it could not figure out if something was a variable declaration or an LValue because both start with the token _id.  The way we solved this was by making the production rules longer, basically making it so that the parser delays when it has to make the decision of what to reduce it to, essentially forcing what a follow set aware parser would do.  We also split up _id (user defined types) from Type and gave it a separate state.  All of the other shift reduce conflicts were solved by shifting first then reducing.
 
 2. Test Case Design
 
-We have two test cases that are invalid for the language, and four more to test various cases of valid grammar.
+We have two test cases that are deliberately invalid for the language, and four more to test various cases of valid grammar.
 
 failTest1.txt: fails
 	In the Toy grammar, all variables must be declared before any statements in a block, like in classic C. This fails because it declares a loop variable inside of for loop itself.
