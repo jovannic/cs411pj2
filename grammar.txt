@@ -23,14 +23,14 @@ TypeOrVoidID ::= _void _id
 VariableDecl ::= Variable _semicolon
 
 UserVariableDecl ::= _id _id _semicolon
-UserVariableDecl ::= _id ArrayType _id _semicolon
+UserVariableDecl ::= _id ArrayBrackets _id _semicolon
 
-ArrayType ::= ArrayType _leftbracket _rightbracket
-ArrayType ::= _leftbracket _rightbracket
+ArrayBrackets ::= ArrayBrackets _leftbracket _rightbracket
+ArrayBrackets ::= _leftbracket _rightbracket
 
 AllType ::= Type
 AllType ::= _id
-AllType ::= _id ArrayType
+AllType ::= _id ArrayBrackets
 
 AllVariable ::= AllType _id
 
