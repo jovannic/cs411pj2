@@ -43,7 +43,7 @@ public class CS411Project2Parser {
         // token stream using Jovanni's lexer to lex a file
         LexingStream stream = new JovanniLexingStream(lexer, new BasicFileStream(filename));
 
-        System.out.println("Parsing \"" + filename + "\":");
+        System.out.println("Parsing \"" + filename + "\":\n");
         // parse
         List<Integer> output = parser.parse(stream);
     }
