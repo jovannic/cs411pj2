@@ -123,6 +123,7 @@ OptionalExpr ::=
 Lvalue ::= _id
 Lvalue ::= Expr _leftbracket Expr _rightbracket
 Lvalue ::= Expr _period _id
+Lvalue ::= _id _period _id
 
 Call ::= _id _leftparen Actuals _rightparen
 Call ::= _id _period _id _leftparen Actuals _rightparen
