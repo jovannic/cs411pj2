@@ -36,7 +36,7 @@ public class CS411Project2Parser {
         // Jovanni's lexer
         Lexer lexer = new Lexer();
 
-        parseFile(lexer, parser, "completeTest.txt");
+        parseFile(lexer, parser, "failTest1.txt");
     }
 
     public static void parseFile(Lexer lexer, Parser parser, String filename) throws IOException {
@@ -45,6 +45,11 @@ public class CS411Project2Parser {
 
         System.out.println("Parsing \"" + filename + "\":\n");
         // parse
+        try {
         List<Integer> output = parser.parse(stream);
+        } catch(IllegalArgumentException e) {
+            System.out.println("[Reject]");
+            System.out.println(e.getMessage());         
+        }
     }
 }

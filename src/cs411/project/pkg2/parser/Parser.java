@@ -64,6 +64,7 @@ public class Parser {
 
                     // if EOF and reduced to the initial noterminal, accept
                     if (token == -1 && left == grammar.intialNonterminal()) {
+                        System.out.println("\n[Accept]");
                         return output;
                     }
 
