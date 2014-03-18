@@ -9,6 +9,7 @@ import cs411.project.lexer.Lexer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,7 +37,10 @@ public class CS411Project2Parser {
         // Jovanni's lexer
         Lexer lexer = new Lexer();
 
-        parseFile(lexer, parser, "failTest1.txt");
+        parseFile(lexer, parser, "failTest1.txt"); // fail
+        parseFile(lexer, parser, "input.txt"); // fail
+        parseFile(lexer, parser, "input2.txt"); // pass
+        parseFile(lexer, parser, "completeTest.txt"); // pass
     }
 
     public static void parseFile(Lexer lexer, Parser parser, String filename) throws IOException {
@@ -44,9 +48,12 @@ public class CS411Project2Parser {
         LexingStream stream = new JovanniLexingStream(lexer, new BasicFileStream(filename));
 
         System.out.println("Parsing \"" + filename + "\":\n");
-        // parse
+
         try {
-        List<Integer> output = parser.parse(stream);
+            // parse
+            List<Integer> output = parser.parse(stream);
+
+            System.out.println(Arrays.toString(output.toArray()));
         } catch(IllegalArgumentException e) {
             System.out.println("[Reject]");
             System.out.println(e.getMessage());         
