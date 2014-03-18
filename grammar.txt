@@ -14,6 +14,7 @@ Type ::= _string
 Type ::= Type _leftbracket _rightbracket
 
 TypeID ::= Type _id
+TypeID ::= _id _id
 
 TypeOrVoidID ::= TypeID
 TypeOrVoidID ::= _void _id
@@ -45,11 +46,11 @@ OptionalPrototypes ::= Prototype OptionalPrototypes
 OptionalPrototypes ::=
 
 Prototype ::= TypeOrVoidID _leftparen Formals _rightparen _semicolon
-
-StmtBlock ::= _leftbrace OptionalVariableDecls
-OptionalVariableDecls ::= VariableDecl OptionalVariableDecls OptionalStmts  _rightbrace
-OptionalVariableDecls ::= _id _id OptionalVariableDecls OptionalStmts  _rightbrace
-OptionalVariableDecls ::= OptionalStmts  _rightbrace
+UserVariable ::= _id _id _semicolon
+StmtBlock ::= _leftbrace OptionalVariableDecls _rightbrace
+OptionalVariableDecls ::= VariableDecl OptionalVariableDecls  
+OptionalVariableDecls ::= UserVariable OptionalVariableDecls  
+OptionalVariableDecls ::= OptionalStmts 
 OptionalStmts ::= Stmt OptionalStmts
 OptionalStmts ::=
 

@@ -10,6 +10,7 @@ import java.util.List;
  * @author Jovanni Cutigni
  */
 public class Parser {
+
     private final LRTable table;
     private final Grammar grammar;
 
@@ -21,6 +22,7 @@ public class Parser {
 
     /**
      * Parse a stream of tokens from a lexer
+     *
      * @param lexer The lexer interface to pull tokens from
      * @return The output string if accepted, else null
      */
@@ -36,7 +38,8 @@ public class Parser {
         System.out.print(grammar.nameOrIdOf(token) + ": ");
 
         // while not eof, do parser action
-        while (token != -1) {
+        boolean done = false;
+        while (token != -1 || done == false) {
             // current state
             int state = stack.peek();
 
@@ -47,12 +50,15 @@ public class Parser {
                 System.out.println("shift ");
 
                 // ... and pull the next token and continue
-                token = lexer.next();
+                if (token != -1) {
+                    token = lexer.next();
+                }
                 System.out.print(grammar.nameOrIdOf(token) + ": ");
             } else {
                 // if no shift...
+                
                 int reduce = table.getReduce(state, token);
-                if (reduce != -1) {
+                if (reduce != -1 || token == -1) {
                     // ...and there is a reduce, reduce
                     output.add(reduce);
 
@@ -62,12 +68,17 @@ public class Parser {
 
                     // pop the correct number
                     int reduceCount = table.getReduceCount(state, token);
-                    for (int i = 0; i < reduceCount; i++)
+                    for (int i = 0; i < reduceCount; i++) {
                         stack.pop();
+                    }
 
                     // for new current state, goto for that non-terminal
+                    if (state == 1 && token == -1) {
+                        done = true;
+                        return output;
+                    }
                     state = stack.peek();
-
+                    
                     //int nt = grammar.nonterminalForRule(table.getReduce(state));
                     int gotoState = table.getGoto(state, left);
                     if (gotoState == -1) {
