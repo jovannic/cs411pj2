@@ -64,3 +64,13 @@ class Piggy {
         return 0;
     }
 }
+
+booty[][] generateBooty(BootyStream b) {
+    almost_booty[] a;
+    booty[][] b;
+
+    a = generateFromSource(boot);
+    b = bottle(filter(a));
+
+    return b;
+}

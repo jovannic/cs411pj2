@@ -19,6 +19,7 @@ Variable ::= _id _id
 
 TypeOrVoidID ::= Variable
 TypeOrVoidID ::= _void _id
+TypeOrVoidID ::= _id ArrayBrackets _id
 
 VariableDecl ::= Variable _semicolon
 
