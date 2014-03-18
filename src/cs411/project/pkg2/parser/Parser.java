@@ -38,56 +38,51 @@ public class Parser {
         System.out.print(grammar.nameOrIdOf(token) + ": ");
 
         // while not eof, do parser action
-        boolean done = false;
-        while (token != -1 || done == false) {
+        while (true) {
             // current state
             int state = stack.peek();
 
             int shift = table.getShift(state, token);
             if (shift != -1) {
-                // if there's a shift action, goto...
+                // if there's a shift defined, it's the next state
                 stack.push(shift);
                 System.out.println("shift ");
 
-                // ... and pull the next token and continue
-                if (token != -1) {
-                    token = lexer.next();
-                }
+                token = lexer.next();
+
                 System.out.print(grammar.nameOrIdOf(token) + ": ");
             } else {
                 // if no shift...
-                
                 int reduce = table.getReduce(state, token);
-                if (reduce != -1 || token == -1) {
-                    // ...and there is a reduce, reduce
+                if (reduce != -1) {
+                    // if there's a reduce defined, it's the rule to reduce with
                     output.add(reduce);
 
                     int left = grammar.nonterminalForRule(reduce);
 
                     System.out.print("r" + reduce + "[" + grammar.nameOrIdOf(left) + "] ");
 
-                    // pop the correct number
+                    // if EOF and reduced to the initial noterminal, accept
+                    if (token == -1 && left == grammar.intialNonterminal()) {
+                        return output;
+                    }
+
+                    // pop the rule off the stack
                     int reduceCount = table.getReduceCount(state, token);
                     for (int i = 0; i < reduceCount; i++) {
                         stack.pop();
                     }
-
-                    // for new current state, goto for that non-terminal
-                    if (state == 1 && token == -1) {
-                        done = true;
-                        return output;
-                    }
                     state = stack.peek();
-                    
-                    //int nt = grammar.nonterminalForRule(table.getReduce(state));
+
+                    // goto the next state
                     int gotoState = table.getGoto(state, left);
-                    if (gotoState == -1) {
+                    if (gotoState != -1) {
+                        stack.push(gotoState);
+                    } else {
                         System.out.println();
                         throw new IllegalArgumentException("No goto defined in table " + state
                                 + " for " + grammar.nameOrIdOf(left));
                     }
-
-                    stack.push(gotoState);
                 } else {
                     System.out.println();
                     // no action defined, error
@@ -96,16 +91,5 @@ public class Parser {
                 }
             }
         }
-
-        // end of file, final step:
-        int state = stack.peek();
-        int reduce = table.getReduce(state, token);
-        int left = grammar.nonterminalForRule(reduce);
-        if (left == grammar.intialNonterminal()) {
-            //accept
-            return output;
-        }
-
-        return null;
     }
 }
