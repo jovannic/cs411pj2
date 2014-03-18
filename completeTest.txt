@@ -4,6 +4,7 @@ double b;
 bool c;
 string d;
 int [] e;
+
 int main() {
 	int a;
 	int b;
@@ -21,13 +22,6 @@ int main() {
 	5 != 5;
 	!a && !b == a || b;
 	readln();
-	a = a.apple;  
-	a = a.apple();
-	a = a.dapple(b);
-	(a)[(b)].c = a;
-	a[(b)].c = a;
-	a[b].c = a;
-	(a)[b].c = a;
 	break;
 	if(lame)
 	if(ohGodNo)
@@ -60,46 +54,4 @@ int main() {
 void functionDos(Random args) {
 	println("Much wow!");
 	println("such code!");
-}
-class apple {
-	apple a;
-	muchwow b;
-	int c;
-}
-class pear extends apple implements fruit {
-	apple a;
-	pear p;
-	apple dapple(apple papple) {
-		println("fruit says wow!");
-		println("but what does the fox say?");
-	}
-}
-interface fruit {
-	apple dapple(apple papple);
-}
-
-class Piggy {
-    void delete(shit[] allThat) {
-        play("http://www.youtube.com/watch?v=ZoGQrKC2ztI");
-        mangle(allThat);
-        burninate(allThat);
-    }
-    int main(string[] args) {
-        Piggy piggy;
-        shit[] code;
-
-        code = newarray(9001, shit);
-        piggy.delete(code);
-        return 0;
-    }
-}
-
-booty[][] generateBooty(BootyStream b) {
-    almost_booty[] a;
-    booty[][] b;
-
-    a = generateFromSource(boot);
-    b = bottle(filter(a));
-
-    return b;
 }

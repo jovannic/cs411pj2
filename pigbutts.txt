@@ -1,0 +1,25 @@
+class Piggy {
+    void delete(shit[] allThat) {
+        play("http://www.youtube.com/watch?v=ZoGQrKC2ztI");
+        mangle(allThat);
+        burninate(allThat);
+    }
+    int main(string[] args) {
+        Piggy piggy;
+        shit[] code;
+
+        code = newarray(9001, shit);
+        piggy.delete(code);
+        return 0;
+    }
+}
+
+booty[][] generateBooty(BootyStream b) {
+    almost_booty[] a;
+    booty[][] b;
+
+    a = generateFromSource(boot);
+    b = bottle(filter(a));
+
+    return b;
+}

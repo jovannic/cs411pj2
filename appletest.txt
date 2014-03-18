@@ -1,0 +1,26 @@
+class apple {
+	apple a;
+	muchwow b;
+	int c;
+}
+class pear extends apple implements fruit {
+	apple a;
+	pear p;
+	apple dapple(apple papple) {
+		println("fruit says wow!");
+		println("but what does the fox say?");
+	}
+}
+interface fruit {
+	apple dapple(apple papple);
+}
+int main() {
+	(a)[(b)].c = a;
+	a[(b)].c = a;
+	a[b].c = a;
+	(a)[b].c = a;
+	a = a.apple;
+	a = a.apple();
+	a = a.dapple(b);
+	//those should work
+}

@@ -38,8 +38,10 @@ public class CS411Project2Parser {
         Lexer lexer = new Lexer();
 
         parseFile(lexer, parser, "failTest1.txt"); // fail
-        parseFile(lexer, parser, "input.txt"); // fail
+        parseFile(lexer, parser, "pj1test.txt"); // fail
         parseFile(lexer, parser, "input2.txt"); // pass
+        parseFile(lexer, parser, "appletest.txt"); // pass
+        parseFile(lexer, parser, "pigbutts.txt"); // pass
         parseFile(lexer, parser, "completeTest.txt"); // pass
     }
 
@@ -54,6 +56,7 @@ public class CS411Project2Parser {
             List<Integer> output = parser.parse(stream);
 
             System.out.println(Arrays.toString(output.toArray()));
+            System.out.println();
         } catch(IllegalArgumentException e) {
             System.out.println("[Reject]");
             System.out.println(e.getMessage());         
