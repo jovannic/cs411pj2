@@ -1,0 +1,2 @@
+1.  S/R and R/R conflicts.
+Our major reduce conflict was between types and lvalues, because it could not figure out if something was a variable declaration or an lvalue because both start with the token _id.  The way we solved this was by making the production rules longer, basically making it so that the parser delays when it has to make the decision of what to reduce it to.  We also split up _id from type and gave it a separate state.  All of the other shift reduce conflicts were solved by shifting first then reducing.
